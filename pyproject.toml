@@ -11,6 +11,7 @@ fastapi = "^0.67.0"
 uvicorn = "^0.14.0"
 PyMySQL = "^1.0.2"
 aiofiles = "^0.7.0"
+PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"

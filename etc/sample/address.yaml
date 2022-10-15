@@ -1,5 +1,5 @@
-formid: address_list
-form_name: 住所録
+book_id: address
+book_name: 住所録
 items:
  - caption: 名前
    field_name: name 
@@ -18,4 +18,4 @@ items:
  - caption: 電話番号
    field_name: phone_number
    size: 20
-   validate: required 
+   validate: required
