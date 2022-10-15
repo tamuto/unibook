@@ -14,6 +14,7 @@ import res from './theme.json'
 import TitleBar from '~/conponents/TitleBar'
 import BookSelector from '~/features/bookselector/components/BookSelector'
 import BookForm from '~/features/bookform/components/BookForm'
+import BookEditor from '~/features/bookform/components/BookEditor'
 
 const theme = createTheme(res)
 
@@ -27,7 +28,9 @@ const App = () => (
         <Routes>
           <Route path='/' element={<Navigate to='/books' />} />
           <Route path='/books' element={<BookSelector />} />
-          <Route path='/books/:form' element={<BookForm />} />
+          <Route path='/books/:form' element={<BookForm />}>
+            <Route path=':id' element={<BookEditor />} />
+          </Route>
         </Routes>
       </Box>
     </HashRouter>
