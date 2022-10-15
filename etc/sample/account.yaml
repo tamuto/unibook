@@ -1,0 +1,20 @@
+book_id: account
+book_name: アカウント管理台帳
+items:
+ - caption: account
+   field_name: アカウント名
+   size: 50
+   validate: required
+ - caption: username
+   field_name: 使用者
+   size: 20
+   validate: required
+ - caption: division
+   field_name: 部署
+   size: 20
+ - caption: start_date
+   field_name: 開始日
+   size: 20
+ - caption: end_date
+   field_name: 終了日
+   size: 20

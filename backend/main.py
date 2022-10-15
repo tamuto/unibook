@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 
+from .engine import books
+
 from .utils import config
-from .utils.connect import execute_sql
 
 app = FastAPI()
 
@@ -27,13 +28,6 @@ def root():
     return RedirectResponse('/static')
 
 
-@app.get('/api/hello')
-def hello():
-    return {'message': 'hello'}
-
-
-@app.get('/api/sample')
-def get_sample():
-    return execute_sql(
-        'select * from test'
-    ).all()
+@app.get('/api/books')
+def get_books():
+    return books.get_booklist()
