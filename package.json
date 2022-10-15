@@ -1,0 +1,36 @@
+{
+  "name": "boilerplate",
+  "version": "0.2.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "setup": "infodb-cli runall setup:*",
+    "setup:frontend": "pnpm install",
+    "setup:backend": "poetry install",
+    "eslint": "eslint --ext .js --ignore-path .gitignore frontend",
+    "build": "infodb-cli runall build:*",
+    "build:es": "infodb-cli es -i frontend/main.js --source-map",
+    "build:minify": "infodb-cli minify -i frontend/index.html",
+    "serve": "etc/run_ap.sh"
+  },
+  "author": "<YourName>",
+  "license": "SEE LICENSE IN YourLicense.txt",
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.8",
+    "axios": "^1.1.2",
+    "date-fns": "^2.29.3",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.4.2",
+    "react-router-dom": "^6.4.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@emotion/babel-plugin": "^11.10.2",
+    "eslint": "^8.25.0"
+  }
+}
