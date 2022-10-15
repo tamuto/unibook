@@ -1,0 +1,98 @@
+{
+    "palette": {
+        "common": {
+            "black": "rgba(74, 74, 74, 1)",
+            "white": "rgba(255, 255, 255, 1)"
+        },
+        "background": {
+            "paper": "rgba(250, 250, 250, 1)",
+            "default": "rgba(255, 244, 246, 1)"
+        },
+        "primary": {
+            "light": "rgba(255, 245, 244, 1)",
+            "main": "rgba(255, 219, 231, 1)",
+            "dark": "rgba(195, 145, 144, 1)",
+            "contrastText": "rgba(74, 74, 74, 1)"
+        },
+        "secondary": {
+            "light": "rgba(255, 207, 234, 1)",
+            "main": "rgba(157, 184, 252, 1)",
+            "dark": "rgba(205, 107, 134, 1)",
+            "contrastText": "rgba(74, 74, 74, 1)"
+        },
+        "error": {
+            "light": "#e57373",
+            "main": "rgba(255, 137, 129, 1)",
+            "dark": "#d32f2f",
+            "contrastText": "rgba(74, 74, 74, 1)"
+        },
+        "text": {
+            "primary": "rgba(74, 74, 74, 1)",
+            "secondary": "rgba(0, 0, 0, 0.54)",
+            "disabled": "rgba(0, 0, 0, 0.38)",
+            "hint": "rgba(0, 0, 0, 0.38)"
+        },
+        "action": {
+            "selectedOpacity": "0.8"
+        }
+    },
+    "components": {
+        "MuiAlert": {
+            "defaultProps": {
+                "variant": "outlined"
+            }
+        },
+        "MuiButtonBase": {
+            "defaultProps": {
+                "variant": "contained"
+            }
+        },
+        "MuiButton": {
+            "defaultProps": {
+                "variant": "contained"
+            }
+        },
+        "MuiLoadingButton": {
+            "defaultProps": {
+                "variant": "contained"
+            }
+        },
+        "MuiTextField": {
+            "defaultProps": {
+                "variant": "outlined",
+                "size": "small"
+            }
+        },
+        "MuiList": {
+            "defaultProps": {
+                "dense": true
+            }
+        },
+        "MuiTable": {
+            "defaultProps": {
+                "size": "small"
+            }
+        },
+        "MuiToolbar": {
+            "defaultProps": {
+                "variant": "dense"
+            }
+        },
+        "MuiAccordion": {
+            "defaultProps": {
+                "disableGutters": true
+            }
+        },
+        "MuiTabs": {
+            "defaultProps": {
+                "textColor": "inherit",
+                "indicatorColor": "secondary"
+            }
+        },
+        "MuiStack": {
+            "defaultProps": {
+                "spacing": 2
+            } 
+        }
+    }
+}
