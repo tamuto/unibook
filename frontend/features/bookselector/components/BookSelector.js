@@ -5,7 +5,9 @@ import axios from 'axios'
 import {
   List,
   ListItemButton,
-  ListItemText
+  ListItemText,
+  Paper,
+  Typography
 } from '@mui/material'
 
 const BookSelector = () => {
@@ -22,15 +24,18 @@ const BookSelector = () => {
   }, [])
 
   return (
-    <List>
-      {
-        books.map((item) => (
-          <ListItemButton key={item.book_id} component={NavLink} to={`/books/${item.book_id}`}>
-            <ListItemText primary={item.book_name} />
-          </ListItemButton>
-        ))
-      }
-    </List>
+    <Paper sx={{ width: '600px', mx: 'auto', p: 2 }}>
+      <Typography variant='h6'>選択してください。</Typography>
+      <List>
+        {
+          books.map((item) => (
+            <ListItemButton key={item.book_id} component={NavLink} to={`/books/${item.book_id}`}>
+              <ListItemText primary={item.book_name} />
+            </ListItemButton>
+          ))
+        }
+      </List>
+    </Paper>
   )
 }
 
