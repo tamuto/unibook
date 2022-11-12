@@ -31,6 +31,7 @@ const App = () => (
           <Route path='/books/:form' element={<BookForm />}>
             <Route path=':id' element={<BookEditor />} />
           </Route>
+          <Route path='/books/:form/entry' element={<BookEditor />} />
         </Routes>
       </Box>
     </HashRouter>
