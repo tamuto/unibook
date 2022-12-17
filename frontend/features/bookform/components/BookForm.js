@@ -1,73 +1,62 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Button
+  Stack,
+  Button,
+  Tooltip,
+  IconButton
 } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import data from '../../../../etc/sample/address.yaml'
-import axios from 'axios'
-import { Stack } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import useBookForm from '../api/useBookForm'
 
 const BookForm = () => {
-  const navigate = useNavigate()
-  const base = '/books/:form'
-  const [list, setList] = useState([])
-  const _list = async () => {
-    const result = await axios.get('/data/test')
-    setList(result.data)
-    console.log(result)
-  }
-
-  useEffect(() => {
-    _list()
-  }, [])
-
-  const newEntry = () => {
-    navigate(`${base}/entry`)
-  }
-
-  const editForm = () => {
-    navigate(`${base}/${id}`)
-  }
-
+  const { openModal, selectItem, list, newEntry, moveEdit, toggleModal, moveClassDelete } = useBookForm()
   return (
     <>
       <Stack direction='row'>
         <p>{data.book_name}</p>
         <Button onClick={newEntry}>新規登録</Button>
       </Stack>
-      <Table>
-        <TableHead sx={{ backgroundColor: 'lightgray' }}>
-          <TableRow>
-            {
-              data.items.map((item, idx) => (
-                <TableCell key={idx}>
-                  {item.caption}
-                </TableCell>
-              ))
-            }
-          </TableRow>
-        </TableHead>
-        <TableBody spacing={2}>
-          {
-            list.map((address, idx) => (
-              <TableRow key={idx} onClick={() => editForm(address)} >
-                <TableCell>{address.name}</TableCell>
-                <TableCell>{address.address1}</TableCell>
-                <TableCell>{address.address2}</TableCell>
-                <TableCell>{address.address3}</TableCell>
-                <TableCell>{address.phone_number}</TableCell>
-              </TableRow>
-            ))
-          }
-        </TableBody>
-      </Table>
+      <Stack spacing={2} direction='row' sx={{ backgroundColor: 'lightgray', p: 2 }}>
+        {
+          data.items.map((item, idx) => (
+            <Stack sx={{ width: '40%' }} key={idx}>
+              {item.caption}
+            </Stack>
+          ))
+        }
+        <Stack sx={{ width: '20%' }}></Stack>
+        <Stack sx={{ width: '20%' }}></Stack>
+      </Stack>
+      <Stack>
+        {
+          list.map((item, idx) => (
+            <Stack key={idx} direction='row' spacing={2} sx={{ borderBottom: 1, px: 2 }}>
+              <Stack sx={{ width: '40%' }}>{item.name}</Stack>
+              <Stack sx={{ width: '40%' }}>{item.address1}</Stack>
+              <Stack sx={{ width: '40%' }}>{item.address2}</Stack>
+              <Stack sx={{ width: '40%' }}>{item.address3}</Stack>
+              <Stack sx={{ width: '40%' }}>{item.phone_number}</Stack>
+              <Stack sx={{ width: '20%' }}>
+                <Tooltip title='編集'>
+                  <IconButton sx={{ cursor: 'pointer' }} onClick={() => moveEdit()} >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              <Stack sx={{ width: '20%' }}>
+                <Tooltip title='削除'>
+                  <IconButton color='error' sx={{ cursor: 'pointer' }} onClick={() => toggleModal(item)} >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+            </Stack>
+          ))
+        }
+      </Stack>
       <Outlet />
     </>
   )

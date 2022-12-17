@@ -1,31 +1,17 @@
 import React from 'react'
 // import ReactHookForm  from 'react-hook-form'
-import { Box, Stack, TextField, Button } from '@mui/material'
+import {
+  Box,
+  Stack,
+  TextField,
+  Button
+} from '@mui/material'
 import data from '../../../../etc/sample/address.yaml'
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import useBookEditor from '../api/useBookEditor'
 
 
 const BookEditor = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm()
-
-  const onSubmit = async (data) => {
-    const book_id = 'test'
-    if (data != '') {
-      await axios.post(`/data/${book_id}`, watch(data))
-    }
-    else {
-      alert('この項目は必須項目です')
-    }
-    console.log('onSubmit:', data)
-    console.log('watch:', watch(data))
-  }
-  console.log(errors)
+  const { handleSubmit, onSubmit, register, formState: { errors } } = useBookEditor()
   return (
     <>
       <Stack component='form' onSubmit={handleSubmit(onSubmit)} >
@@ -51,9 +37,6 @@ const BookEditor = () => {
         </Box>
       </Stack>
     </>
-
-
   )
 }
-
 export default BookEditor

@@ -28,9 +28,8 @@ const App = () => (
         <Routes>
           <Route path='/' element={<Navigate to='/books' />} />
           <Route path='/books' element={<BookSelector />} />
-          <Route path='/books/:form' element={<BookForm />}>
-            <Route path=':id' element={<BookEditor />} />
-          </Route>
+          <Route path='/books/:form' element={<BookForm />} />
+          <Route path='/books/:form/:_id' element={<BookEditor />} />
           <Route path='/books/:form/entry' element={<BookEditor />} />
         </Routes>
       </Box>

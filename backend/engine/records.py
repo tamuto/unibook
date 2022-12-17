@@ -9,6 +9,7 @@ sql_create_st_book_record = '''
 CREATE TABLE st_book_record (
     book_id VARCHAR(36) NOT NULL,
     record_no INTEGER NOT NULL,
+    edition INTEGER,
     active_flag CHAR(1) NOT NULL,
     create_date TIMESTAMP NOT NULL,
     update_date TIMESTAMP NOT NULL,
@@ -48,6 +49,7 @@ class DataManager:
         if new_flag is True:
             self.conn.execute(sql_create_st_book_record)
             self.conn.execute(sql_create_st_book_field)
+            self.conn.commit()
 
     def __enter__(self):
         return self
@@ -61,7 +63,9 @@ class DataManager:
 
     def query(self, record_no):
         result = self.conn.execute(sql_select_field, {'record_no': record_no})
-        return {r.field_name: r.value for r in result}
+        value = {r.field_name: r.value for r in result}
+        value['_id'] = record_no
+        return value
 
     def insert(self, data):
         max_record_no = self.conn.execute(sql_select_max).fetchone().last_no + 1
@@ -69,6 +73,7 @@ class DataManager:
             'book_id': self.book_id,
             'record_no': max_record_no,
             'active_flag': 'Y',
+            'edition': 1,
             'create_date': datetime.now(),
             'update_date': datetime.now()
         })
