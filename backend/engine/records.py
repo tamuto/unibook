@@ -34,6 +34,11 @@ sql_select_max = "SELECT COUNT(record_no) as last_no FROM st_book_record"
 sql_insert_record = "INSERT INTO st_book_record VALUES (:book_id, :record_no, :active_flag, :create_date, :update_date)"
 sql_insert_field = "INSERT INTO st_book_field VALUES (:book_id, :record_no, :field_name, :value)"
 
+sql_update_record = "UPDATE st_book_record SET update_date = :update_date WHERE book_id = :book_id AND record_no = :record_no"
+sql_update_field = "UPDATE st_book_field SET value = :value WHERE book_id = :book_id AND record_no = :record_no AND field_name = :field_name"
+
+sql_delete_record = "UPDATE st_book_record SET active_flag = :active_flag, update_date = :update_date WHERE book_id = :book_id AND record_no = :record_no"
+
 
 class DataManager:
 
@@ -88,7 +93,25 @@ class DataManager:
         self.conn.commit()
 
     def update(self, record_no, data):
-        pass
+        self.conn.execute(sql_update_record, {
+            'update_date': datetime.now(),
+            'book_id': self.book_id,
+            'record_no': record_no
+        })
+        for field, value in data.items():
+            self.conn.execute(sql_update_field, {
+                'value': value,
+                'book_id': self.book_id,
+                'record_no': record_no,
+                'field_name': field
+            })
+        self.conn.commit()
 
     def delete(self, record_no):
-        pass
+        self.conn.execute(sql_delete_record, {
+            'active_flag': 'N',
+            'update_date': datetime.now(),
+            'book_id': self.book_id,
+            'record_no': record_no
+        })
+        self.conn.commit()

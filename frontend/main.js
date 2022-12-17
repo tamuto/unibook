@@ -4,7 +4,6 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import {
   CssBaseline,
-  Container,
   Toolbar,
   Box
 } from '@mui/material'
@@ -31,6 +30,9 @@ const App = () => (
           <Route path='/books/:form' element={<BookForm />} />
           <Route path='/books/:form/:_id' element={<BookEditor />} />
           <Route path='/books/:form/entry' element={<BookEditor />} />
+          <Route path='/books/:bookId' element={<BookForm />}>
+            <Route path=':id' element={<BookEditor />} />
+          </Route>
         </Routes>
       </Box>
     </HashRouter>
