@@ -9,6 +9,7 @@ sql_create_st_book_record = '''
 CREATE TABLE st_book_record (
     book_id VARCHAR(36) NOT NULL,
     record_no INTEGER NOT NULL,
+    edition INTEGER,
     active_flag CHAR(1) NOT NULL,
     create_date TIMESTAMP NOT NULL,
     update_date TIMESTAMP NOT NULL,
@@ -30,7 +31,7 @@ sql_select_record = "SELECT record_no FROM st_book_record WHERE active_flag = 'Y
 sql_select_field = "SELECT field_name, value FROM st_book_field WHERE record_no = :record_no"
 
 sql_select_max = "SELECT COUNT(record_no) as last_no FROM st_book_record"
-sql_insert_record = "INSERT INTO st_book_record VALUES (:book_id, :record_no, :active_flag, :create_date, :update_date)"
+sql_insert_record = "INSERT INTO st_book_record VALUES (:book_id, :record_no, :edition, :active_flag, :create_date, :update_date)"
 sql_insert_field = "INSERT INTO st_book_field VALUES (:book_id, :record_no, :field_name, :value)"
 
 sql_update_record = "UPDATE st_book_record SET update_date = :update_date WHERE book_id = :book_id AND record_no = :record_no"
@@ -53,6 +54,7 @@ class DataManager:
         if new_flag is True:
             self.conn.execute(sql_create_st_book_record)
             self.conn.execute(sql_create_st_book_field)
+            self.conn.commit()
 
     def __enter__(self):
         return self
@@ -66,7 +68,9 @@ class DataManager:
 
     def query(self, record_no):
         result = self.conn.execute(sql_select_field, {'record_no': record_no})
-        return {r.field_name: r.value for r in result}
+        value = {r.field_name: r.value for r in result}
+        value['_id'] = record_no
+        return value
 
     def insert(self, data):
         max_record_no = self.conn.execute(sql_select_max).fetchone().last_no + 1
@@ -74,6 +78,7 @@ class DataManager:
             'book_id': self.book_id,
             'record_no': max_record_no,
             'active_flag': 'Y',
+            'edition': 1,
             'create_date': datetime.now(),
             'update_date': datetime.now()
         })
