@@ -8,11 +8,11 @@ import {
 } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import data from '../../../../etc/sample/address.yaml'
 import useBookForm from '../api/useBookForm'
 
 const BookForm = () => {
-  const { openModal, selectItem, list, newEntry, moveEdit, toggleModal, moveClassDelete } = useBookForm()
+  const { openModal, selectItem, data, newEntry, moveEdit, toggleModal, moveClassDelete } = useBookForm()
+  console.log(data)
   return (
     <>
       <Stack direction='row'>
@@ -21,7 +21,7 @@ const BookForm = () => {
       </Stack>
       <Stack spacing={2} direction='row' sx={{ backgroundColor: 'lightgray', p: 2 }}>
         {
-          data.items.map((item, idx) => (
+          data.columns.map((item, idx) => (
             <Stack sx={{ width: '40%' }} key={idx}>
               {item.caption}
             </Stack>
@@ -32,16 +32,16 @@ const BookForm = () => {
       </Stack>
       <Stack>
         {
-          list.map((item, idx) => (
+          data.records.map((record, idx) => (
             <Stack key={idx} direction='row' spacing={2} sx={{ borderBottom: 1, px: 2 }}>
-              <Stack sx={{ width: '40%' }}>{item.name}</Stack>
-              <Stack sx={{ width: '40%' }}>{item.address1}</Stack>
-              <Stack sx={{ width: '40%' }}>{item.address2}</Stack>
-              <Stack sx={{ width: '40%' }}>{item.address3}</Stack>
-              <Stack sx={{ width: '40%' }}>{item.phone_number}</Stack>
+              {
+                data.columns.map((item) => (
+                  <Stack  sx={{ width: '40%' }} key={item.field_name}>{record[item.field_name]}</Stack>
+                ))
+              }
               <Stack sx={{ width: '20%' }}>
                 <Tooltip title='編集'>
-                  <IconButton sx={{ cursor: 'pointer' }} onClick={() => moveEdit()} >
+                  <IconButton sx={{ cursor: 'pointer' }} onClick={() => moveEdit(record)} >
                     <EditIcon />
                   </IconButton>
                 </Tooltip>

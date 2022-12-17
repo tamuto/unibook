@@ -28,11 +28,8 @@ const App = () => (
           <Route path='/' element={<Navigate to='/books' />} />
           <Route path='/books' element={<BookSelector />} />
           <Route path='/books/:form' element={<BookForm />} />
-          <Route path='/books/:form/:_id' element={<BookEditor />} />
           <Route path='/books/:form/entry' element={<BookEditor />} />
-          <Route path='/books/:bookId' element={<BookForm />}>
-            <Route path=':id' element={<BookEditor />} />
-          </Route>
+          <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
         </Routes>
       </Box>
     </HashRouter>

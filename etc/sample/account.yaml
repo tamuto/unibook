@@ -1,6 +1,6 @@
 book_id: account
 book_name: アカウント管理台帳
-items:
+columns:
  - caption: アカウント名
    field_name: account
    size: 50

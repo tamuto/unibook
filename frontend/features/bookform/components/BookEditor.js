@@ -6,17 +6,17 @@ import {
   TextField,
   Button
 } from '@mui/material'
-import data from '../../../../etc/sample/address.yaml'
 import useBookEditor from '../api/useBookEditor'
 
 
 const BookEditor = () => {
-  const { handleSubmit, onSubmit, register, formState: { errors } } = useBookEditor()
+  const { handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
+  console.log(data)
   return (
     <>
       <Stack component='form' onSubmit={handleSubmit(onSubmit)} >
         {
-          data.items.map((item, idx) => (
+          data.columns.map((item, idx) => (
             <TextField
               key={idx}
               name={item.field_name}
@@ -30,7 +30,7 @@ const BookEditor = () => {
         <Box mt={1}>
           <Button
             type='submit'
-            onClick={onSubmit}
+            // onClick={onSubmit}
           >
             OK
           </Button>

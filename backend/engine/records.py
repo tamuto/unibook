@@ -31,7 +31,7 @@ sql_select_record = "SELECT record_no FROM st_book_record WHERE active_flag = 'Y
 sql_select_field = "SELECT field_name, value FROM st_book_field WHERE record_no = :record_no"
 
 sql_select_max = "SELECT COUNT(record_no) as last_no FROM st_book_record"
-sql_insert_record = "INSERT INTO st_book_record VALUES (:book_id, :record_no, :active_flag, :create_date, :update_date)"
+sql_insert_record = "INSERT INTO st_book_record VALUES (:book_id, :record_no, :edition, :active_flag, :create_date, :update_date)"
 sql_insert_field = "INSERT INTO st_book_field VALUES (:book_id, :record_no, :field_name, :value)"
 
 sql_update_record = "UPDATE st_book_record SET update_date = :update_date WHERE book_id = :book_id AND record_no = :record_no"

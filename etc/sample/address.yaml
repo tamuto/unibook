@@ -1,6 +1,6 @@
 book_id: address
 book_name: 住所録
-items:
+columns:
  - caption: 名前
    field_name: name 
    size: 20
