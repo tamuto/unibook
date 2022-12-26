@@ -35,21 +35,22 @@ const useBookForm = () => {
   }
 
   const moveEdit = async (item) => {
-    // await axios.get(`/data/${form}/${item._id}`)
     navigate(`${base}/edit/${item._id}`)
   }
 
-  const toggleModal = (item) => {
-    setSlectItem(item)
+  const toggleModal = (record) => {
+    setSlectItem(record)
     setOpenModal(!openModal)
   }
 
-  const moveClassDelete = async () => {
-    await axios.delete(`/data/${book_id}/${selectItem.record_no}`)
+  const moveDelete = async () => {
+    await axios.delete(`/data/${form}/${selectItem._id}`)
       .then(async () => {
-        await axios.get(`/data/${book_id}`)
-        setList(res.data)
-        console.log(res.data)
+        await axios.get(`/data/${form}`)
+          .then(res => {
+            setData(res.data)
+            console.log(res.data)
+          })
       })
     setOpenModal(!openModal)
   }
@@ -60,7 +61,7 @@ const useBookForm = () => {
     newEntry,
     moveEdit,
     toggleModal,
-    moveClassDelete
+    moveDelete
   }
 }
 export default useBookForm

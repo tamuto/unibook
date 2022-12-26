@@ -10,7 +10,7 @@ import useBookEditor from '../api/useBookEditor'
 
 
 const BookEditor = () => {
-  const { handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
+  const { cancel, handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
   console.log(data)
   return (
     <>
@@ -29,8 +29,13 @@ const BookEditor = () => {
         }
         <Box mt={1}>
           <Button
+            color='inherit'
+            onClick={cancel}
+          >キャンセル
+          </Button>
+          <Button
             type='submit'
-            // onClick={onSubmit}
+          // onClick={onSubmit}
           >
             OK
           </Button>
