@@ -14,7 +14,6 @@ import RequestConfirmation from '~/conponents/RequestConfirmation'
 
 const BookForm = () => {
   const { openModal, data, newEntry, moveEdit, toggleModal, moveDelete } = useBookForm()
-  console.log(data)
   return (
     <>
       <Stack>

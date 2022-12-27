@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import { ResetTvOutlined } from '@mui/icons-material'
 
 const useBookForm = () => {
   const navigate = useNavigate()
@@ -26,7 +27,6 @@ const useBookForm = () => {
   }
 
   useEffect(() => {
-    console.log(form)
     _list()
   }, [])
 
@@ -48,8 +48,10 @@ const useBookForm = () => {
       .then(async () => {
         await axios.get(`/data/${form}`)
           .then(res => {
-            setData(res.data)
-            console.log(res.data)
+            setData({
+              ...data,
+              records: res.data
+            })
           })
       })
     setOpenModal(!openModal)
