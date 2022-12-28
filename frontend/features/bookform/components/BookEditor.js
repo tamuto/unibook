@@ -1,5 +1,4 @@
 import React from 'react'
-// import ReactHookForm  from 'react-hook-form'
 import {
   Box,
   Stack,
@@ -10,8 +9,7 @@ import useBookEditor from '../api/useBookEditor'
 
 
 const BookEditor = () => {
-  const { handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
-  console.log(data)
+  const { cancel, handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
   return (
     <>
       <Stack component='form' onSubmit={handleSubmit(onSubmit)} >
@@ -29,8 +27,12 @@ const BookEditor = () => {
         }
         <Box mt={1}>
           <Button
+            color='inherit'
+            onClick={cancel}
+          >キャンセル
+          </Button>
+          <Button
             type='submit'
-            // onClick={onSubmit}
           >
             OK
           </Button>
