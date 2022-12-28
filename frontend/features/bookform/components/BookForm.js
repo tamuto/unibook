@@ -11,17 +11,25 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import useBookForm from '../api/useBookForm'
 import RequestConfirmation from '~/conponents/RequestConfirmation'
+import HeadBox from '../../../conponents/Header'
+
 
 const BookForm = () => {
   const { openModal, data, newEntry, moveEdit, toggleModal, moveDelete } = useBookForm()
   return (
     <>
-      <Stack>
-        <Stack direction='row'>
-          <p>{data.book_name}</p>
+      <Stack spacing={2} sx={{ padding: '15px' }}>
+        <HeadBox>{data.book_name}</HeadBox>
+        <Stack
+          direction='row'
+          spacing={2}
+          sx={{
+            padding: '15px'
+          }}>
+          <Stack flexGrow={1}></Stack>
           <Button onClick={newEntry}>新規登録</Button>
         </Stack>
-        <Stack spacing={2} direction='row' sx={{ backgroundColor: 'lightgray', p: 2 }}>
+        <Stack spacing={2} direction='row' sx={{ backgroundColor: 'white', p: 2 }}>
           {
             data.columns.map((item, idx) => (
               <Stack sx={{ width: '40%' }} key={idx}>

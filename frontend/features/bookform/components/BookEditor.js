@@ -6,13 +6,23 @@ import {
   Button
 } from '@mui/material'
 import useBookEditor from '../api/useBookEditor'
+import HeadBox from '../../../conponents/Header'
 
 
 const BookEditor = () => {
   const { cancel, handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
   return (
     <>
-      <Stack component='form' onSubmit={handleSubmit(onSubmit)} >
+      <Stack component='form' spacing={2} sx={{ padding: '15px' }} onSubmit={handleSubmit(onSubmit)} >
+        <HeadBox>{data.book_name}</HeadBox>
+        <Stack
+          direction='row'
+          spacing={2}
+          sx={{
+            padding: '15px'
+          }}>
+          <Stack flexGrow={1}></Stack>
+        </Stack>
         {
           data.columns.map((item, idx) => (
             <TextField
@@ -25,7 +35,7 @@ const BookEditor = () => {
             />
           ))
         }
-        <Box mt={1}>
+        <Stack mt={1} spacing={2} direction='row'>
           <Button
             color='inherit'
             onClick={cancel}
@@ -36,7 +46,7 @@ const BookEditor = () => {
           >
             OK
           </Button>
-        </Box>
+        </Stack>
       </Stack>
     </>
   )
