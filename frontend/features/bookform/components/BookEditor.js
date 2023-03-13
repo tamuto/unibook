@@ -42,6 +42,7 @@ const BookEditor = () => {
           >キャンセル
           </Button>
           <Button
+            color='secondary'
             type='submit'
           >
             OK

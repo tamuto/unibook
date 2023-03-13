@@ -27,7 +27,11 @@ const BookForm = () => {
             padding: '15px'
           }}>
           <Stack flexGrow={1}></Stack>
-          <Button onClick={newEntry}>新規登録</Button>
+          <Button
+            onClick={newEntry}
+            color='secondary'
+          >新規登録
+          </Button>
         </Stack>
         <Stack spacing={2} direction='row' sx={{ backgroundColor: 'white', p: 2 }}>
           {
