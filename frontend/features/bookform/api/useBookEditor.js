@@ -39,6 +39,10 @@ const useBookEditor = () => {
     _list()
   }, [])
 
+  const moveHome = () => {
+    navigate(`${base}`)
+  }
+
 
   const onSubmit = async (data) => {
     if (recordNo) {
@@ -49,12 +53,8 @@ const useBookEditor = () => {
     navigate(`${base}`)
   }
 
-  const cancel = () => {
-    navigate(`${base}`)
-  }
-
   return {
-    cancel,
+    moveHome,
     handleSubmit,
     onSubmit,
     register,
