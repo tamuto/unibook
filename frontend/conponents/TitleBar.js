@@ -1,30 +1,28 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import {
   AppBar,
+  IconButton,
+  Stack,
   Toolbar,
-  Typography,
-  IconButton
+  Typography
 } from '@mui/material'
 
-import HomeIcon from '@mui/icons-material/Home'
+import BookIcon from '@mui/icons-material/MenuBook'
+import PersonIcon from '@mui/icons-material/Person'
 
 const TitleBar = () => {
-  const navigate = useNavigate()
-  const base = '/books'
-
-  const moveHome = () => {
-    navigate(`${base}`)
-  }
 
   return (
     <AppBar>
       <Toolbar>
-        <Typography variant='h6'>管理台帳</Typography>
-        <IconButton sx={{ cursor: 'pointer' }} onClick={() => moveHome()} >
-          <HomeIcon color="disabled" />
+        <BookIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        <Typography variant='h5'>UNIBOOK</Typography>
+        <Stack flexGrow={1}></Stack>
+        <IconButton>
+          <PersonIcon color="disabled" />
         </IconButton>
+        <Typography>user name</Typography>
       </Toolbar>
     </AppBar>
   )

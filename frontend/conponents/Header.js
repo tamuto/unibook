@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
 
 import {
-  Typography
+  Stack
 } from '@mui/material'
 
-const HeadBox = styled(Typography)`
+const HeadBox = styled(Stack)`
   color: ${props => props.theme.palette.primary.contrastText};
   border-bottom: ${props => `solid 2px ${props.theme.palette.primary.contrastText}`};
   font-size: ${props => props.variant === 'body' ? '1em' : '1.5em'};

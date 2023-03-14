@@ -33,6 +33,10 @@ const useBookForm = () => {
     navigate(`${base}/entry`)
   }
 
+  const moveHome = () => {
+    navigate('/books')
+  }
+
   const moveEdit = async (item) => {
     navigate(`${base}/edit/${item._id}`)
   }
@@ -59,6 +63,7 @@ const useBookForm = () => {
     openModal,
     selectItem,
     data,
+    moveHome,
     newEntry,
     moveEdit,
     toggleModal,

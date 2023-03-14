@@ -3,9 +3,10 @@ import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import {
+  Box,
+  Container,
   CssBaseline,
-  Toolbar,
-  Box
+  Toolbar
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import res from './theme.json'
@@ -14,6 +15,7 @@ import TitleBar from '~/conponents/TitleBar'
 import BookSelector from '~/features/bookselector/components/BookSelector'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookEditor from '~/features/bookform/components/BookEditor'
+import LoginPage from './system/LoginPage'
 
 const theme = createTheme(res)
 
@@ -22,16 +24,19 @@ const App = () => (
     <CssBaseline />
     <HashRouter>
       <TitleBar />
-      <Box pt={2}>
-        <Toolbar />
-        <Routes>
-          <Route path='/' element={<Navigate to='/books' />} />
-          <Route path='/books' element={<BookSelector />} />
-          <Route path='/books/:form' element={<BookForm />} />
-          <Route path='/books/:form/entry' element={<BookEditor />} />
-          <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
-        </Routes>
-      </Box>
+      <Container>
+        <Box pt={2}>
+          <Toolbar />
+          <Routes>
+            <Route path='/' element={<Navigate to='/books' />} />
+            <Route path='/books' element={<LoginPage />} />
+            <Route path='/books/home' element={<BookSelector />} />
+            <Route path='/books/:form' element={<BookForm />} />
+            <Route path='/books/:form/entry' element={<BookEditor />} />
+            <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
+          </Routes>
+        </Box>
+      </Container>
     </HashRouter>
   </ThemeProvider>
 )
