@@ -1,25 +1,43 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import {
-  Stack,
   Button,
-  Tooltip,
   IconButton,
+  Stack,
+  Tooltip,
   Typography
 } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+
 import DeleteIcon from '@mui/icons-material/Delete'
-import useBookForm from '../api/useBookForm'
-import RequestConfirmation from '~/conponents/RequestConfirmation'
+import EditIcon from '@mui/icons-material/Edit'
+import OutputIcon from '@mui/icons-material/Output'
+
 import HeadBox from '../../../conponents/Header'
+import RequestConfirmation from '~/conponents/RequestConfirmation'
+import Search from './Search'
+import Display from './Display'
+import useBookForm from '../api/useBookForm'
 
 
 const BookForm = () => {
-  const { openModal, data, newEntry, moveEdit, toggleModal, moveDelete } = useBookForm()
+  const { openModal, data, newEntry, moveHome, moveEdit, toggleModal, moveDelete } = useBookForm()
   return (
     <>
       <Stack spacing={2} sx={{ padding: '15px' }}>
-        <HeadBox>{data.book_name}</HeadBox>
+        <HeadBox direction='row'>
+          {data.book_name}
+          <Stack flexGrow={1}></Stack>
+          <Button
+            color='tertiary'
+            onClick={moveHome}
+          >戻る
+          </Button>
+          <Tooltip title='CSVで出力'>
+            <IconButton>
+              <OutputIcon />
+            </IconButton>
+          </Tooltip>
+        </HeadBox>
         <Stack
           direction='row'
           spacing={2}
@@ -32,6 +50,10 @@ const BookForm = () => {
             color='secondary'
           >新規登録
           </Button>
+        </Stack>
+        <Stack spacing={2} direction='row'>
+          <Search />
+          <Display />
         </Stack>
         <Stack spacing={2} direction='row' sx={{ backgroundColor: 'white', p: 2 }}>
           {

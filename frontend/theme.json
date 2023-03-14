@@ -9,15 +9,21 @@
             "default": "rgba(235, 245, 245, 1)"
         },
         "primary": {
-            "light": "rgba(230, 240, 255, 1)",
+            "light": "rgba(188, 209, 209, 1)",
             "main": "rgba(160, 208, 208, 1)",
-            "dark": "rgba(100, 155, 170, 1)",
+            "dark": "rgba(125, 209, 209, 1)",
             "contrastText": "rgba(74, 74, 74, 1)"
         },
         "secondary": {
-            "light": "rgba(255, 207, 234, 1)",
+            "light": "rgba(209, 188, 188, 1)",
             "main": "rgba(209, 161, 161, 1)",
-            "dark": "rgba(205, 107, 134, 1)",
+            "dark": "rgba(209, 125, 125, 1)",
+            "contrastText": "rgba(74, 74, 74, 1)"
+        },
+        "tertiary": {
+            "light": "rgba(188, 209, 199, 1)",
+            "main": "rgba(161, 209, 185, 1)",
+            "dark": "rgba(125, 209, 167, 1)",
             "contrastText": "rgba(74, 74, 74, 1)"
         },
         "error": {

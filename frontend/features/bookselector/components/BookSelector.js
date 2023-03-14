@@ -15,7 +15,6 @@ const BookSelector = () => {
 
   const _loadBooks = async () => {
     const result = await axios.get('/api/books')
-    console.log(result)
     setBooks(result.data)
   }
 
