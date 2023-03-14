@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  FormGroup,
   FormControlLabel,
   Switch
 } from '@mui/material'
@@ -7,7 +8,9 @@ import {
 
 const Display = () => {
   return (
-    <FormControlLabel control={<Switch defaultChecked />} labelPlacement='left' label='ステータス表示ON' />
+    <FormGroup>
+      <FormControlLabel control={<Switch defaultChecked />} labelPlacement='end' label='ステータス表示ON' />
+    </FormGroup>
   )
 }
 export default Display

@@ -15,6 +15,7 @@ import TitleBar from '~/conponents/TitleBar'
 import BookSelector from '~/features/bookselector/components/BookSelector'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookEditor from '~/features/bookform/components/BookEditor'
+import LoginPage from './system/LoginPage'
 
 const theme = createTheme(res)
 
@@ -28,7 +29,8 @@ const App = () => (
           <Toolbar />
           <Routes>
             <Route path='/' element={<Navigate to='/books' />} />
-            <Route path='/books' element={<BookSelector />} />
+            <Route path='/books' element={<LoginPage />} />
+            <Route path='/books/home' element={<BookSelector />} />
             <Route path='/books/:form' element={<BookForm />} />
             <Route path='/books/:form/entry' element={<BookEditor />} />
             <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
