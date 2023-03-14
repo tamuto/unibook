@@ -3,9 +3,10 @@ import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import {
+  Box,
+  Container,
   CssBaseline,
-  Toolbar,
-  Box
+  Toolbar
 } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import res from './theme.json'
@@ -22,16 +23,18 @@ const App = () => (
     <CssBaseline />
     <HashRouter>
       <TitleBar />
-      <Box pt={2}>
-        <Toolbar />
-        <Routes>
-          <Route path='/' element={<Navigate to='/books' />} />
-          <Route path='/books' element={<BookSelector />} />
-          <Route path='/books/:form' element={<BookForm />} />
-          <Route path='/books/:form/entry' element={<BookEditor />} />
-          <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
-        </Routes>
-      </Box>
+      <Container>
+        <Box pt={2}>
+          <Toolbar />
+          <Routes>
+            <Route path='/' element={<Navigate to='/books' />} />
+            <Route path='/books' element={<BookSelector />} />
+            <Route path='/books/:form' element={<BookForm />} />
+            <Route path='/books/:form/entry' element={<BookEditor />} />
+            <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
+          </Routes>
+        </Box>
+      </Container>
     </HashRouter>
   </ThemeProvider>
 )

@@ -7,7 +7,7 @@ import {
 
 const Display = () => {
   return (
-    <FormControlLabel control={<Switch defaultChecked />} labelPlacement='top' label='ステータス表示ON' />
+    <FormControlLabel control={<Switch defaultChecked />} labelPlacement='left' label='ステータス表示ON' />
   )
 }
 export default Display

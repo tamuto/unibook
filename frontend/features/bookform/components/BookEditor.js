@@ -13,7 +13,7 @@ const BookEditor = () => {
   const { moveHome, handleSubmit, onSubmit, register, data, formState: { errors } } = useBookEditor()
   return (
     <>
-      <Stack component='form' spacing={2} sx={{ padding: '15px' }} onSubmit={handleSubmit(onSubmit)} >
+      <Stack component='form' spacing={2} onSubmit={handleSubmit(onSubmit)} >
         <HeadBox direction='row'>
           {data.book_name}
           <Stack flexGrow={1}></Stack>

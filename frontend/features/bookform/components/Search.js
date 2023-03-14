@@ -5,7 +5,6 @@ import {
   TextField
 } from '@mui/material'
 
-
 const Search = () => {
   return (
     <Stack
@@ -25,5 +24,3 @@ const Search = () => {
   )
 }
 export default Search
-
-

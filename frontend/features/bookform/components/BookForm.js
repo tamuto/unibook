@@ -23,7 +23,7 @@ const BookForm = () => {
   const { openModal, data, newEntry, moveHome, moveEdit, toggleModal, moveDelete } = useBookForm()
   return (
     <>
-      <Stack spacing={2} sx={{ padding: '15px' }}>
+      <Stack spacing={2}>
         <HeadBox direction='row'>
           {data.book_name}
           <Stack flexGrow={1}></Stack>
