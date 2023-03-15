@@ -3,18 +3,18 @@ book_name: アカウント管理台帳
 columns:
  - caption: アカウント名
    field_name: account
-   size: 50
+   size: 200
    validate: required
  - caption: 使用者
    field_name: username
-   size: 20
+   size: 200
    validate: required
  - caption: 部署
    field_name: division
-   size: 20
+   size: 200
  - caption: 開始日
    field_name: start_date
-   size: 20
+   size: 200
  - caption: 終了日
    field_name: end_date
-   size: 20
+   size: 200
