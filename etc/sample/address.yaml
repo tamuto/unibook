@@ -3,19 +3,19 @@ book_name: 住所録
 columns:
  - caption: 名前
    field_name: name 
-   size: 20
+   size: 150
    validate: required 
  - caption: 住所1
    field_name: address1
-   size: 50
+   size: 225
    validate: required 
  - caption: 住所2
    field_name: address2
-   size: 50
+   size: 225
  - caption: 住所3 
    field_name: address3
-   size: 50 
+   size: 225
  - caption: 電話番号
    field_name: phone_number
-   size: 20
+   size: 150
    validate: required
