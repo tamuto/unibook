@@ -11,7 +11,7 @@ import {
 
 import { useForm } from 'react-hook-form'
 
-import LogoImg from '../../dist/img/unibook.png'
+import LogoImg from '../../dist/unibook.png'
 
 const LoginBox = styled(Stack)`
   display: flex;
