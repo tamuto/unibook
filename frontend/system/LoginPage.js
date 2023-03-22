@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
+import { Amplify, Auth } from 'aws-amplify'
+import environ from '~/environ.json'
 
 import {
   Box,
@@ -10,7 +12,6 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-
 import LogoImg from '../../dist/unibook.png'
 
 const LoginBox = styled(Stack)`
@@ -28,19 +29,26 @@ const LoginForm = styled(Box)`
 `
 
 const LoginPage = () => {
+  // Amplifyを初期化
+  Amplify.configure(environ.AwsConfig)
+  console.log(environ.AwsConfig)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _login = (data) => {
-    console.log(data)
+  const _signIn = async (event) => {
+    try {
+      const result = await Auth.signIn(event.user_name, event.password)
+      console.log('ログイン成功', result)
+      navigate('/books/home')
+    } catch (error) {
+      console.log('ログイン失敗', error)
+      alert('ログイン失敗')
+    }
   }
 
-  const onSubmit = handleSubmit(_login)
+  const onSubmit = handleSubmit(_signIn)
 
   const navigate = useNavigate()
 
-  const moveHome = () => {
-    navigate('/books/home')
-  }
 
   return (
     <LoginBox  >
@@ -59,6 +67,7 @@ const LoginPage = () => {
           <TextField
             fullWidth
             label='パスワード'
+            type='password'
             error={!!errors.password}
             helperText={errors.password ? 'パスワードを入力してください。' : ''}
             {...register('password', {
@@ -68,7 +77,6 @@ const LoginPage = () => {
           <Box mt={1}>
             <Button
               type='submit'
-              onClick={moveHome}
             >
               サインイン
             </Button>
