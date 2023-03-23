@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
-import { Amplify, Auth } from 'aws-amplify'
-import environ from '~/environ.json'
 
 import {
   Box,
@@ -11,8 +9,6 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-
-import { Link } from 'react-router-dom'
 
 import { useForm } from 'react-hook-form'
 import LogoImg from '../../dist/unibook.png'
@@ -31,32 +27,19 @@ const LoginForm = styled(Box)`
   margin: auto;
 `
 
-const LoginPage = () => {
-  // Amplifyを初期化
-  Amplify.configure(environ.AwsConfig)
-  console.log(environ.AwsConfig)
+const SignUp = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _signIn = async (event) => {
-    try {
-      const result = await Auth.signIn(event.user_name, event.password)
-      console.log('ログイン成功', result)
-      navigate('/books/home')
-    } catch (error) {
-      console.log('ログイン失敗', error)
-      alert('ログイン失敗')
-    }
+  const _signUp = async () => {
+    console.log('登録成功')
+    navigate('/books')
   }
 
-  const passwordReset = () => {
-    navigate('/books/passwordreset')
+  const signIn = () => {
+    navigate('/books')
   }
 
-  const signup = () => {
-    navigate('/books/signup')
-  }
-
-  const onSubmit = handleSubmit(_signIn)
+  const onSubmit = handleSubmit(_signUp)
 
   const navigate = useNavigate()
 
@@ -67,7 +50,7 @@ const LoginPage = () => {
       <LoginForm onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
-            サインイン
+            サインアップ
           </Typography>
           <TextField
             fullWidth
@@ -75,6 +58,15 @@ const LoginPage = () => {
             error={!!errors.user_name}
             helperText={errors.user_name ? 'IDを入力してください。' : ''}
             {...register('user_name', {
+              required: true
+            })}
+          />
+          <TextField
+            fullWidth
+            label='メールアドレス'
+            error={!!errors.mail_address}
+            helperText={errors.mail_address ? 'メールアドレスを入力してください。' : ''}
+            {...register('mail_address', {
               required: true
             })}
           />
@@ -90,34 +82,23 @@ const LoginPage = () => {
           />
           <Box mt={3}>
             <Button
-              type='submit'
-              variant='contained'
-              fullWidth
+              variant='text'
+              onClick={signIn}
             >
-              サインイン
+              サインインに戻る
             </Button>
             <Button
-              size='small'
-              variant='text'
-              onClick={passwordReset}
-            >パスワードを忘れましたか？
+              variant='contained'
+              sx={{ float: 'right' }}
+              type='submit'
+            >
+              アカウント作成
             </Button>
           </Box>
         </Stack>
       </LoginForm>
-      <Box mt={1} sx={{ textAlign: 'center' }}>
-        <Typography variant='caption' display='block'>
-          アカウントを持っていますか？
-        </Typography>
-        <Button
-          size='small'
-          variant='text'
-          onClick={signup}
-        >アカウントを作成
-        </Button>
-      </Box>
-    </LoginBox >
+    </LoginBox>
   )
 }
 
-export default LoginPage
+export default SignUp
