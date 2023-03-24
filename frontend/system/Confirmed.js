@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Auth } from "aws-amplify"
+import { Auth } from 'aws-amplify'
 
 import {
   Box,
@@ -28,30 +28,36 @@ const LoginForm = styled(Box)`
   margin: auto;
 `
 
-const SignUp = () => {
+const Confirmed = () => {
   const location = useLocation()
-  const name = location.state
-  console.log(name)
+  const event = location.state
+  console.log(event)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _newPassword = async (event) => {
+  const _confirmed = async (event) => {
+    console.log(event)
     try {
-      console.log(event)
-      const result = await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.password)
-      console.log(result)
+      const result = await Auth.confirmSignUp(event.user_name, event.authcode)
+      console.log(result, '認証に成功しました。')
     } catch (error) {
       console.log(error)
       alert(error.message)
+      console.log('確認OK')
     }
-    console.log('登録成功')
     navigate('/books')
   }
 
-  const signIn = () => {
-    navigate('/books')
+  const resendSignUp = async () => {
+    try {
+      const result = await Auth.resendSignUp(event.user_name);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert(error.message);
+    }
   }
 
-  const onSubmit = handleSubmit(_newPassword)
+  const onSubmit = handleSubmit(_confirmed)
 
   const navigate = useNavigate()
 
@@ -62,14 +68,23 @@ const SignUp = () => {
       <LoginForm onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
-            パスワードを忘れた
+            サインアップ
           </Typography>
           <Typography variant='subtitle1' style={{ fontWeight: 'bold' }} >
             本人認証メールを送信しました。
           </Typography>
           <Typography variant='caption'>
-            メール記載の検証コードと新しいパスワードを入力してください。
+            IDとメール記載の検証コードを入力してください。
           </Typography>
+          <TextField
+            fullWidth
+            label='ID'
+            error={!!errors.user_name}
+            helperText={errors.user_name ? 'IDを入力してください。' : ''}
+            {...register('user_name', {
+              required: true
+            })}
+          />
           <TextField
             fullWidth
             label='検証コード'
@@ -79,22 +94,12 @@ const SignUp = () => {
               required: true
             })}
           />
-          <TextField
-            fullWidth
-            label='新しいパスワード'
-            type='password'
-            error={!!errors.password}
-            helperText={errors.password ? '新しいパスワードを入力してください。' : ''}
-            {...register('password', {
-              required: true
-            })}
-          />
           <Box mt={3}>
             <Button
+              size='small'
               variant='text'
-              onClick={signIn}
-            >
-              サインインに戻る
+              onClick={resendSignUp}
+            >検証コードを再送する。
             </Button>
             <Button
               variant='contained'
@@ -110,4 +115,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default Confirmed

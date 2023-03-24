@@ -12,8 +12,6 @@ import {
   Typography
 } from '@mui/material'
 
-import { Link } from 'react-router-dom'
-
 import { useForm } from 'react-hook-form'
 import LogoImg from '../../dist/unibook.png'
 
@@ -32,7 +30,6 @@ const LoginForm = styled(Box)`
 `
 
 const LoginPage = () => {
-  // Amplifyを初期化
   Amplify.configure(environ.AwsConfig)
   console.log(environ.AwsConfig)
   const { register, handleSubmit, formState: { errors } } = useForm()

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
 
 import {
   Box,
@@ -30,9 +31,23 @@ const LoginForm = styled(Box)`
 const SignUp = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _signUp = async () => {
-    console.log('登録成功')
-    navigate('/books')
+  const _signUp = async (event) => {
+    console.log(event)
+    try {
+      const result = await Auth.signUp({
+        username: event.user_name,
+        password: event.password,
+        attributes: {
+          email: event.email
+        }
+      })
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+      alert('サインアップ失敗')
+    }
+    console.log('登録成功', event)
+    navigate('/books/signup/confirmed', { state: event })
   }
 
   const signIn = () => {
@@ -64,9 +79,9 @@ const SignUp = () => {
           <TextField
             fullWidth
             label='メールアドレス'
-            error={!!errors.mail_address}
-            helperText={errors.mail_address ? 'メールアドレスを入力してください。' : ''}
-            {...register('mail_address', {
+            error={!!errors.email}
+            helperText={errors.email ? 'メールアドレスを入力してください。' : ''}
+            {...register('email', {
               required: true
             })}
           />

@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
 
 import {
   AppBar,
@@ -15,6 +17,7 @@ import BookIcon from '@mui/icons-material/MenuBook'
 import PersonIcon from '@mui/icons-material/Person'
 
 const TitleBar = () => {
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
@@ -22,7 +25,20 @@ const TitleBar = () => {
   }
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
+  }
+
+  const handleSignOut = async () => {
+    try {
+      await Auth.signOut()
+      navigate('/books')
+    } catch (error) {
+      console.log('サインアウトエラー', error);
+    }
+  }
+
+  const moveAccount = () => {
+    navigate('/books/account')
   }
 
   return (
@@ -40,8 +56,8 @@ const TitleBar = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>アカウント管理</MenuItem>
-          <MenuItem onClick={handleClose}>サインアウト</MenuItem>
+          <MenuItem onClick={moveAccount}>アカウント管理</MenuItem>
+          <MenuItem onClick={handleSignOut}>サインアウト</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

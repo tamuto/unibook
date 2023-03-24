@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
+import { Auth } from "aws-amplify"
 
 import {
   Box,
@@ -27,19 +28,26 @@ const LoginForm = styled(Box)`
   margin: auto;
 `
 
-const SignUp = () => {
+const PasswordReset = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _signUp = async () => {
-    console.log('登録成功')
-    navigate('/books/newpassword')
+  const _passwordReset = async (event) => {
+    try {
+      const result = await Auth.forgotPassword(event.user_name)
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+      alert(error.message)
+    }
+    console.log('メール送信')
+    navigate('/books/newpassword', { state: event })
   }
 
   const signIn = () => {
     navigate('/books')
   }
 
-  const onSubmit = handleSubmit(_signUp)
+  const onSubmit = handleSubmit(_passwordReset)
 
   const navigate = useNavigate()
 
@@ -53,6 +61,9 @@ const SignUp = () => {
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
             パスワードを忘れた
+          </Typography>
+          <Typography variant='caption'>
+            登録したIDを入力してください。
           </Typography>
           <TextField
             fullWidth
@@ -84,4 +95,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default PasswordReset
