@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-unibook-dev-101606-authRole",
+      "UnauthRoleArn": "arn:aws:iam::294515681822:role/amplify-unibook-dev-101606-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::294515681822:role/amplify-unibook-dev-101606-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-unibook-dev-101606-deployment",
+      "UnauthRoleName": "amplify-unibook-dev-101606-unauthRole",
+      "StackName": "amplify-unibook-dev-101606",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:294515681822:stack/amplify-unibook-dev-101606/abf38850-c3e3-11ed-a858-0aaaae942a4f",
+      "AmplifyAppId": "d1h6ygu0tu4cgu"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1h6ygu0tu4cgu",
+          "type": "manual"
+        }
+      },
+      "auth": {
+        "unibook6b90aa74": {}
+      }
+    }
+  }
+}
