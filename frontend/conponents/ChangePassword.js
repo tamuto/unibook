@@ -1,17 +1,24 @@
 import React from 'react'
+import styled from '@emotion/styled'
 import {
+  Box,
+  Button,
   Stack,
-  TextField,
-  Button
+  TextField
 } from '@mui/material'
 import HeadBox from '../conponents/Header'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Auth } from "aws-amplify"
 
+const InputForm = styled(Box)`
+  background-color: white;
+  padding: 15px;
+  margin: auto;
+`
 
 const ChangePassword = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const navigate = useNavigate()
 
   const moveBack = () => {
@@ -26,7 +33,7 @@ const ChangePassword = () => {
       const result = await Auth.changePassword(
         user,
         event.current,
-        event.new
+        event.confirmPassword
       )
       console.log(result)
     } catch (error) {
@@ -40,26 +47,29 @@ const ChangePassword = () => {
 
   const onSubmit = handleSubmit(_changePassword)
 
+  const newPassword = watch('new')
+  const confirmPassword = watch('confirmPassword')
+
 
   return (
     <>
-      <Stack component='form' spacing={2} onSubmit={onSubmit} >
-        <HeadBox direction='row'>
-          アカウント管理
-          <Stack flexGrow={1}></Stack>
-          <Button color='tertiary' onClick={moveBack}>
-            戻る
-          </Button>
-        </HeadBox>
-        <Stack
-          direction='row'
-          spacing={2}
-          sx={{
-            padding: '15px'
-          }}>
-          <Stack flexGrow={1}></Stack>
-        </Stack>
-        <Stack spacing={2}>
+      <HeadBox direction='row'>
+        アカウント管理
+        <Stack flexGrow={1}></Stack>
+        <Button color='tertiary' onClick={moveBack}>
+          戻る
+        </Button>
+      </HeadBox>
+      <Stack
+        direction='row'
+        spacing={2}
+        sx={{
+          padding: '15px'
+        }}>
+        <Stack flexGrow={1}></Stack>
+      </Stack>
+      <InputForm onSubmit={onSubmit}>
+        <Stack component='form' mb={2} spacing={2}>
           <TextField
             fullWidth
             label='現在のパスワード'
@@ -74,20 +84,37 @@ const ChangePassword = () => {
             fullWidth
             label='新しいパスワード'
             type='password'
-            error={!!errors.new}
-            helperText={errors.new ? '新しいパスワードを入力してください。' : ''}
+            error={!!errors.new && true}
+            helperText={errors.new && '新しいパスワードを入力してください。'}
             {...register('new', {
               required: true
             })}
           />
+          <TextField
+            fullWidth
+            label='新しいパスワード(確認用)'
+            type='password'
+            error={!!errors.confirmPassword && true}
+            helperText={
+              errors.confirmPassword
+                ? 'パスワードが一致しません。'
+                : ''
+            }
+            {...register('confirmPassword', {
+              required: true,
+              validate: (value) =>
+                value === newPassword || 'パスワードが一致しません。'
+            })}
+          />
           <Button
-            variant='contained'
+            style={{ width: '150px' }}
+            color='secondary'
             type='submit'
           >
             パスワード変更
           </Button>
         </Stack>
-      </Stack>
+      </InputForm>
     </>
   )
 }
