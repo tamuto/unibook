@@ -31,13 +31,12 @@ const LoginForm = styled(Box)`
 const SignUp = () => {
   const location = useLocation()
   const name = location.state
-  console.log(name)
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
   const _newPassword = async (event) => {
     try {
       console.log(event)
-      const result = await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.password)
+      const result = await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.confirmPassword)
       console.log(result)
     } catch (error) {
       console.log(error)
@@ -54,6 +53,8 @@ const SignUp = () => {
   const onSubmit = handleSubmit(_newPassword)
 
   const navigate = useNavigate()
+
+  const newPassword = watch('new')
 
 
   return (
@@ -83,10 +84,26 @@ const SignUp = () => {
             fullWidth
             label='新しいパスワード'
             type='password'
-            error={!!errors.password}
-            helperText={errors.password ? '新しいパスワードを入力してください。' : ''}
-            {...register('password', {
+            error={!!errors.new}
+            helperText={errors.new && '新しいパスワードを入力してください。'}
+            {...register('new', {
               required: true
+            })}
+          />
+          <TextField
+            fullWidth
+            label='新しいパスワード(確認用)'
+            type='password'
+            error={!!errors.confirmPassword && true}
+            helperText={
+              errors.confirmPassword
+                ? 'パスワードが一致しません。'
+                : ''
+            }
+            {...register('confirmPassword', {
+              required: true,
+              validate: (value) =>
+                value === newPassword || 'パスワードが一致しません。'
             })}
           />
           <Box mt={3}>
