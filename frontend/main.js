@@ -15,11 +15,12 @@ import TitleBar from '~/conponents/TitleBar'
 import BookSelector from '~/features/bookselector/components/BookSelector'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookEditor from '~/features/bookform/components/BookEditor'
-import LoginPage from './system/LoginPage'
-import SignUp from './system/SignUp'
-import PasswordReset from './system/PasswordReset'
-import NewPassword from './system/NewPassword'
-import Confirmed from './system/Confirmed'
+import LoginPage from './system/components/LoginPage'
+import SignUp from './system/components/SignUp'
+import PasswordReset from './system/components/PasswordReset'
+import NewPassword from './system/components/NewPassword'
+import Confirmed from './system/components/Confirmed'
+import AccountInfoCheck from './system/components/AccountInfoCheck'
 import Account from './conponents/Account'
 import ChangePassword from './conponents/ChangePassword'
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path='/' element={<Navigate to='/books' />} />
             <Route path='/books' element={<LoginPage />} />
             <Route path='/books/signup' element={<SignUp />} />
+            <Route path='/books/signup/account/check' element={<AccountInfoCheck />} />
             <Route path='/books/signup/confirmed' element={<Confirmed />} />
             <Route path='/books/passwordreset' element={<PasswordReset />} />
             <Route path='/books/newpassword' element={<NewPassword />} />

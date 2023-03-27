@@ -48,7 +48,6 @@ const ChangePassword = () => {
   const onSubmit = handleSubmit(_changePassword)
 
   const newPassword = watch('new')
-  const confirmPassword = watch('confirmPassword')
 
 
   return (

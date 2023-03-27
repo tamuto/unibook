@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Auth } from "aws-amplify"
+import { useNavigate } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
 
 import {
   Box,
@@ -12,7 +12,8 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-import LogoImg from '../../dist/unibook.png'
+import LogoImg from '../../../dist/unibook.png'
+
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -29,32 +30,24 @@ const LoginForm = styled(Box)`
 `
 
 const SignUp = () => {
-  const location = useLocation()
-  const name = location.state
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
-  const _newPassword = async (event) => {
-    try {
-      console.log(event)
-      const result = await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.confirmPassword)
-      console.log(result)
-    } catch (error) {
-      console.log(error)
-      alert(error.message)
-    }
-    console.log('登録成功')
-    navigate('/books')
+  const _signUp = async (event) => {
+    console.log(event)
+    navigate('/books/signup/account/check', { state: event })
   }
 
   const signIn = () => {
     navigate('/books')
   }
 
-  const onSubmit = handleSubmit(_newPassword)
+  const onSubmit = handleSubmit(_signUp)
 
   const navigate = useNavigate()
 
-  const newPassword = watch('new')
+  const username = watch('user_name')
+  const email = watch('email')
+  const password = watch('password')
 
 
   return (
@@ -63,36 +56,39 @@ const SignUp = () => {
       <LoginForm onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
-            パスワードを忘れた
-          </Typography>
-          <Typography variant='subtitle1' style={{ fontWeight: 'bold' }} >
-            本人認証メールを送信しました。
-          </Typography>
-          <Typography variant='caption'>
-            メール記載の検証コードと新しいパスワードを入力してください。
+            サインアップ
           </Typography>
           <TextField
             fullWidth
-            label='検証コード'
-            error={!!errors.authcode}
-            helperText={errors.authcode ? '検証コードを入力してください。' : ''}
-            {...register('authcode', {
+            label='ID'
+            error={!!errors.user_name}
+            helperText={errors.user_name ? 'IDを入力してください。' : ''}
+            {...register('user_name', {
               required: true
             })}
           />
           <TextField
             fullWidth
-            label='新しいパスワード'
+            label='メールアドレス'
+            error={!!errors.email}
+            helperText={errors.email ? 'メールアドレスを入力してください。' : ''}
+            {...register('email', {
+              required: true
+            })}
+          />
+          <TextField
+            fullWidth
+            label='パスワード'
             type='password'
-            error={!!errors.new}
-            helperText={errors.new && '新しいパスワードを入力してください。'}
-            {...register('new', {
+            error={!!errors.password && true}
+            helperText={errors.password && 'パスワードを入力してください。'}
+            {...register('password', {
               required: true
             })}
           />
           <TextField
             fullWidth
-            label='新しいパスワード(確認用)'
+            label='パスワード(確認用)'
             type='password'
             error={!!errors.confirmPassword && true}
             helperText={
@@ -103,7 +99,7 @@ const SignUp = () => {
             {...register('confirmPassword', {
               required: true,
               validate: (value) =>
-                value === newPassword || 'パスワードが一致しません。'
+                value === password || 'パスワードが一致しません。'
             })}
           />
           <Box mt={3}>
@@ -118,7 +114,7 @@ const SignUp = () => {
               sx={{ float: 'right' }}
               type='submit'
             >
-              送信
+              アカウント作成
             </Button>
           </Box>
         </Stack>
@@ -126,5 +122,4 @@ const SignUp = () => {
     </LoginBox>
   )
 }
-
 export default SignUp
