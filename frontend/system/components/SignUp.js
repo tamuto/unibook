@@ -12,7 +12,8 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-import LogoImg from '../../dist/unibook.png'
+import LogoImg from '../../../dist/unibook.png'
+
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -29,25 +30,11 @@ const LoginForm = styled(Box)`
 `
 
 const SignUp = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
   const _signUp = async (event) => {
     console.log(event)
-    try {
-      const result = await Auth.signUp({
-        username: event.user_name,
-        password: event.password,
-        attributes: {
-          email: event.email
-        }
-      })
-      console.log(result)
-    } catch (error) {
-      console.log(error)
-      alert('サインアップ失敗')
-    }
-    console.log('登録成功', event)
-    navigate('/books/signup/confirmed', { state: event })
+    navigate('/books/signup/account/check', { state: event })
   }
 
   const signIn = () => {
@@ -57,6 +44,10 @@ const SignUp = () => {
   const onSubmit = handleSubmit(_signUp)
 
   const navigate = useNavigate()
+
+  const username = watch('user_name')
+  const email = watch('email')
+  const password = watch('password')
 
 
   return (
@@ -89,10 +80,26 @@ const SignUp = () => {
             fullWidth
             label='パスワード'
             type='password'
-            error={!!errors.password}
-            helperText={errors.password ? 'パスワードを入力してください。' : ''}
+            error={!!errors.password && true}
+            helperText={errors.password && 'パスワードを入力してください。'}
             {...register('password', {
               required: true
+            })}
+          />
+          <TextField
+            fullWidth
+            label='パスワード(確認用)'
+            type='password'
+            error={!!errors.confirmPassword && true}
+            helperText={
+              errors.confirmPassword
+                ? 'パスワードが一致しません。'
+                : ''
+            }
+            {...register('confirmPassword', {
+              required: true,
+              validate: (value) =>
+                value === password || 'パスワードが一致しません。'
             })}
           />
           <Box mt={3}>
@@ -115,5 +122,4 @@ const SignUp = () => {
     </LoginBox>
   )
 }
-
 export default SignUp
