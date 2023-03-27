@@ -2,7 +2,8 @@ import React from 'react'
 import {
   Stack,
   Typography,
-  Button
+  Button,
+  Box
 } from '@mui/material'
 import HeadBox from '../conponents/Header'
 import { useNavigate } from 'react-router-dom'
@@ -54,19 +55,30 @@ const Account = () => {
           }}>
           <Stack flexGrow={1}></Stack>
         </Stack>
-        <Stack spacing={2}>
-          <Typography>
-            ID : {userSession?.username}
-          </Typography>
-          <Typography>
-            メールアドレス : {userSession?.attributes?.email}
-          </Typography>
-          <Button
-            color='secondary'
-            onClick={changePassword}>
-            パスワード変更
-          </Button>
-        </Stack>
+        <Box bgcolor='white' padding={3}>
+          <Stack direction='row'>
+            <Typography style={{ width: '200px' }} fontWeight='bold'>
+              ID:
+            </Typography>
+            <Typography fontWeight='bold'>
+              {userSession?.username}
+            </Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography style={{ width: '200px' }} fontWeight='bold'>
+              メールアドレス:
+            </Typography>
+            <Typography fontWeight='bold'>
+              {userSession?.attributes?.email}
+            </Typography>
+          </Stack>
+        </Box>
+        <Button
+          style={{ width: '150px' }}
+          color='secondary'
+          onClick={changePassword}>
+          パスワード変更
+        </Button>
       </Stack>
     </>
   )
