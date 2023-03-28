@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-import LogoImg from '../../../dist/unibook.png'
+import LogoImg from '../../../etc/unibook.png'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -33,14 +33,11 @@ const PasswordReset = () => {
 
   const _passwordReset = async (event) => {
     try {
-      const result = await Auth.forgotPassword(event.user_name)
-      console.log(result)
+      await Auth.forgotPassword(event.user_name)
+      navigate('/books/newpassword', { state: event })
     } catch (error) {
-      console.log(error)
-      alert(error.message)
+      alert('IDが見つかりませんでした。正しいIDを入力してください。')
     }
-    console.log('メール送信')
-    navigate('/books/newpassword', { state: event })
   }
 
   const signIn = () => {

@@ -58,6 +58,7 @@ const useBookForm = () => {
           })
       })
     setOpenModal(!openModal)
+    alert('レコードを一件削除しました。')
   }
   return {
     openModal,

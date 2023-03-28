@@ -26,23 +26,18 @@ const ChangePassword = () => {
   }
 
   const _changePassword = async (event) => {
-    console.log(event)
     try {
       const user = await Auth.currentAuthenticatedUser()
-      console.log(user)
-      const result = await Auth.changePassword(
+      await Auth.changePassword(
         user,
         event.current,
         event.confirmPassword
       )
-      console.log(result)
+      alert('パスワードを変更しました。')
+      navigate('/books/account')
     } catch (error) {
-      console.log(error)
-      alert(error.message)
+      alert('パスワードを変更できませんでした。')
     }
-
-    console.log(event)
-    navigate('/books/account')
   }
 
   const onSubmit = handleSubmit(_changePassword)

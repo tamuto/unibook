@@ -31,12 +31,10 @@ const Account = () => {
   useEffect(() => {
     const getCurrentSession = async () => {
       try {
-        const session = await Auth.currentSession()
+        await Auth.currentSession()
         const user = await Auth.currentUserInfo()
         setUserSession(user)
-        console.log(user)
       } catch (error) {
-        console.log('セッション取得エラー:', error)
       }
     }
 

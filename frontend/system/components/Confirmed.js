@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-import LogoImg from '../../../dist/unibook.png'
+import LogoImg from '../../../etc/unibook.png'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -31,29 +31,22 @@ const LoginForm = styled(Box)`
 const Confirmed = () => {
   const location = useLocation()
   const event = location.state
-  console.log(event)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const _confirmed = async (event) => {
-    console.log(event)
     try {
-      const result = await Auth.confirmSignUp(event.user_name, event.authcode)
-      console.log(result, '認証に成功しました。')
+      await Auth.confirmSignUp(event.user_name, event.authcode)
+      alert('アカウントを登録しました。')
+      navigate('/books')
     } catch (error) {
-      console.log(error)
-      alert(error.message)
-      console.log('確認OK')
+      alert('認証に失敗しました。もう一度認証コードをご確認ください。')
     }
-    navigate('/books')
   }
 
   const resendSignUp = async () => {
     try {
-      const result = await Auth.resendSignUp(event.user_name);
-      console.log(result);
+      await Auth.resendSignUp(event.user_name);
     } catch (error) {
-      console.log(error);
-      alert(error.message);
     }
   }
 

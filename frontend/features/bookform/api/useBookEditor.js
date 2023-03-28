@@ -22,6 +22,7 @@ const useBookEditor = () => {
     columns: [],
   })
 
+
   const _list = async () => {
     const bookInfo = await axios.get(`/api/books/${form}`) // yaml
     if (recordNo) {
@@ -47,8 +48,10 @@ const useBookEditor = () => {
   const onSubmit = async (data) => {
     if (recordNo) {
       await axios.put(`/data/${form}/${recordNo}`, watch(data))
+      alert('レコードを一件変更しました。')
     } else {
       await axios.post(`/data/${form}`, watch(data))
+      alert('レコードを一件追加しました。')
     }
     navigate(`${base}`)
   }
