@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
-import LogoImg from '../../../dist/unibook.png'
+import LogoImg from '../../../etc/unibook.png'
 
 const LoginBox = styled(Stack)`
   display: flex;

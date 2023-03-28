@@ -10,7 +10,7 @@ import {
   Typography
 } from '@mui/material'
 
-import LogoImg from '../../../dist/unibook.png'
+import LogoImg from '../../../etc/unibook.png'
 
 
 const LoginBox = styled(Stack)`
