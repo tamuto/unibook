@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 import { Amplify, Auth } from 'aws-amplify'
 import environ from '~/environ.json'
+import { AuthContext } from '../../main'
 
 import {
   Box,
@@ -33,9 +34,12 @@ const LoginPage = () => {
   Amplify.configure(environ.AwsConfig)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
+
   const _signIn = async (event) => {
     try {
       await Auth.signIn(event.user_name, event.password)
+      setIsLoggedIn(true)
       navigate('/books/home')
     } catch (error) {
       alert('サインインに失敗しました。もう一度サインインしてください。')
