@@ -30,29 +30,25 @@ const AccountInfoCheck = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const event = location.state
-  console.log(event)
 
   const signIn = () => {
     navigate('/books')
   }
 
   const handleSignUp = async (data) => {
-    console.log(data)
     try {
-      const result = await Auth.signUp({
+      await Auth.signUp({
         username: data.user_name,
         password: data.confirmPassword,
         attributes: {
           email: data.email
         }
       })
-      console.log(result)
+      navigate('/books/signup/confirmed', { state: data })
     } catch (error) {
-      console.log(error)
-      alert('サインアップ失敗')
+      alert('アカウントを登録できませんでした。サインアップ画面に移動します。')
+      navigate('/books/signup')
     }
-    console.log('登録確認画面へ', data)
-    navigate('/books/signup/confirmed', { state: data })
   }
 
   return (

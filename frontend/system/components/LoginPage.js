@@ -31,17 +31,14 @@ const LoginForm = styled(Box)`
 
 const LoginPage = () => {
   Amplify.configure(environ.AwsConfig)
-  console.log(environ.AwsConfig)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const _signIn = async (event) => {
     try {
-      const result = await Auth.signIn(event.user_name, event.password)
-      console.log('ログイン成功', result)
+      await Auth.signIn(event.user_name, event.password)
       navigate('/books/home')
     } catch (error) {
-      console.log('ログイン失敗', error)
-      alert('ログイン失敗')
+      alert('サインインに失敗しました。もう一度サインインしてください。')
     }
   }
 

@@ -35,15 +35,12 @@ const SignUp = () => {
 
   const _newPassword = async (event) => {
     try {
-      console.log(event)
-      const result = await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.confirmPassword)
-      console.log(result)
+      await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.confirmPassword)
+      alert('パスワードを変更しました。')
+      navigate('/books')
     } catch (error) {
-      console.log(error)
-      alert(error.message)
+      alert('認証に失敗しました。もう一度認証コードをご確認ください。')
     }
-    console.log('登録成功')
-    navigate('/books')
   }
 
   const signIn = () => {

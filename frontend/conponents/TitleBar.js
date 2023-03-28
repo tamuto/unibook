@@ -33,7 +33,6 @@ const TitleBar = () => {
       await Auth.signOut()
       navigate('/books')
     } catch (error) {
-      console.log('サインアウトエラー', error);
     }
   }
 

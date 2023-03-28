@@ -33,7 +33,6 @@ const SignUp = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
   const _signUp = async (event) => {
-    console.log(event)
     navigate('/books/signup/account/check', { state: event })
   }
 
@@ -45,8 +44,6 @@ const SignUp = () => {
 
   const navigate = useNavigate()
 
-  const username = watch('user_name')
-  const email = watch('email')
   const password = watch('password')
 
 
