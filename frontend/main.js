@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 
@@ -32,34 +32,42 @@ Amplify.configure(awsExports)
 
 const theme = createTheme(res)
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <HashRouter>
-      <TitleBar />
-      <Container>
-        <Box pt={2}>
-          <Toolbar />
-          <Routes>
-            <Route path='/' element={<Navigate to='/books' />} />
-            <Route path='/books' element={<LoginPage />} />
-            <Route path='/books/signup' element={<SignUp />} />
-            <Route path='/books/signup/account/check' element={<AccountInfoCheck />} />
-            <Route path='/books/signup/confirmed' element={<Confirmed />} />
-            <Route path='/books/passwordreset' element={<PasswordReset />} />
-            <Route path='/books/newpassword' element={<NewPassword />} />
-            <Route path='/books/account' element={<Account />} />
-            <Route path='/books/account/password' element={<ChangePassword />} />
-            <Route path='/books/home' element={<BookSelector />} />
-            <Route path='/books/:form' element={<BookForm />} />
-            <Route path='/books/:form/entry' element={<BookEditor />} />
-            <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
-          </Routes>
-        </Box>
-      </Container>
-    </HashRouter>
-  </ThemeProvider>
-)
+export const AuthContext = createContext(null)
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HashRouter>
+          <TitleBar />
+          <Container>
+            <Box pt={2}>
+              <Toolbar />
+              <Routes>
+                <Route path='/' element={<Navigate to='/books' />} />
+                <Route path='/books' element={<LoginPage />} />
+                <Route path='/books/signup' element={<SignUp />} />
+                <Route path='/books/signup/account/check' element={<AccountInfoCheck />} />
+                <Route path='/books/signup/confirmed' element={<Confirmed />} />
+                <Route path='/books/passwordreset' element={<PasswordReset />} />
+                <Route path='/books/newpassword' element={<NewPassword />} />
+                <Route path='/books/account' element={<Account />} />
+                <Route path='/books/account/password' element={<ChangePassword />} />
+                <Route path='/books/home' element={<BookSelector />} />
+                <Route path='/books/:form' element={<BookForm />} />
+                <Route path='/books/:form/entry' element={<BookEditor />} />
+                <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
+              </Routes>
+            </Box>
+          </Container>
+        </HashRouter>
+      </ThemeProvider>
+    </AuthContext.Provider>
+  )
+}
 
 root = createRoot(document.getElementById('app'))
 root.render(<App />)
