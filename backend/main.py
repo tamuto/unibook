@@ -3,12 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 
+from .engine.books import HeaderCheck
+from .engine.books import Payload
+
 from .engine import books
 from .engine.records import DataManager
 
 from .utils import config
 
-app = FastAPI()
+app = FastAPI(dependencies=[HeaderCheck()])
+
 
 app.mount('/static', StaticFiles(directory='dist', html=True), name='static')
 
@@ -30,7 +34,7 @@ def root():
 
 
 @app.get('/api/books')
-def get_books():
+def get_books(payload: dict = Payload()):
     return books.get_booklist()
 
 
