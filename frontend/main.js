@@ -13,6 +13,7 @@ import res from './theme.json'
 
 import TitleBar from '~/conponents/TitleBar'
 import BookSelector from '~/features/bookselector/components/BookSelector'
+import BookShare from './conponents/BookShare'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookEditor from '~/features/bookform/components/BookEditor'
 import LoginPage from './system/components/LoginPage'
@@ -57,6 +58,7 @@ const App = () => {
                 <Route path='/books/account' element={<Account />} />
                 <Route path='/books/account/password' element={<ChangePassword />} />
                 <Route path='/books/home' element={<BookSelector />} />
+                <Route path='/books/home/share' element={<BookShare />} />
                 <Route path='/books/:form' element={<BookForm />} />
                 <Route path='/books/:form/entry' element={<BookEditor />} />
                 <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
