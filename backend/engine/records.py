@@ -3,7 +3,7 @@ import sqlite3
 from datetime import datetime
 from dbcolls.sqlite3.Row import DictRow
 
-from ..engine.books import get_current_user_id
+from ..engine.depends import get_current_user_id
 from ..utils import config
 
 sql_create_st_book_record = '''
@@ -43,9 +43,9 @@ sql_delete_record = "UPDATE st_book_record SET active_flag = :active_flag, updat
 
 class DataManager:
 
-    def __init__(self, book_id, payload: dict):
+    def __init__(self, book_id, sub: dict):
         folder = config.get_BOOK_DATA()
-        sub_id = get_current_user_id(payload)
+        sub_id = get_current_user_id(sub)
         self.book_id = book_id
         self.database = f'{folder}/{sub_id}/{self.book_id}.sqlite'
         new_flag = True
