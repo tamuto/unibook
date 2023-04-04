@@ -54,7 +54,7 @@ const App = () => {
                 <Route path='/books/signup/confirmed' element={<Confirmed />} />
                 <Route path='/books/passwordreset' element={<PasswordReset />} />
                 <Route path='/books/newpassword' element={<NewPassword />} />
-                <Route path='/books/account' element={<Account />} />
+                <Route path='/books/account/info' element={<Account />} />
                 <Route path='/books/account/password' element={<ChangePassword />} />
                 <Route path='/books/home' element={<BookSelector />} />
                 <Route path='/books/:form' element={<BookForm />} />

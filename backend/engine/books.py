@@ -1,4 +1,5 @@
 import yaml
+import os
 from glob import glob
 
 from ..utils import config
@@ -16,6 +17,10 @@ userpool_id = config.get_USERPOOL_ID()
 client_id = config.get_CLIENT_ID()
 
 
+def get_current_user_id(payload):
+    return payload['sub']
+
+
 def load_yaml(filename):
     with open(filename, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
@@ -29,14 +34,17 @@ def make_item(filename):
     }
 
 
-def get_booklist():
-    folder = config.get_BOOKS()
+def get_booklist(payload: dict):
+    folder = os.path.join(config.get_BOOKS(), get_current_user_id(payload))
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     return [make_item(f) for f in glob(f'{folder}/*.yaml')]
 
 
-def get_book(book_id):
+def get_book(book_id, payload: dict):
     folder = config.get_BOOKS()
-    return load_yaml(f'{folder}/{book_id}.yaml')
+    sub_id = get_current_user_id(payload)
+    return load_yaml(f'{folder}/{sub_id}/{book_id}.yaml')
 
 
 def Payload():
@@ -53,7 +61,6 @@ def Payload():
             app_client_id=client_id,
             testmode=False
         )
-        print(claims)
         return claims
 
     return Depends(auth_check)
@@ -67,7 +74,5 @@ def HeaderCheck():
         '''
         if not authorization:
             raise HTTPException(status_code=401, detail='Unauthorized')
-        else:
-            print("OK")
 
     return Depends(header_check)

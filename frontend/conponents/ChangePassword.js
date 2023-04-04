@@ -34,7 +34,7 @@ const ChangePassword = () => {
         event.confirmPassword
       )
       alert('パスワードを変更しました。')
-      navigate('/books/account')
+      navigate('/books/account/info')
     } catch (error) {
       alert('パスワードを変更できませんでした。')
     }

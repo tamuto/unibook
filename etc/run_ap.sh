@@ -1,6 +1,6 @@
 #!/bin/bash
-export BACKEND_BOOKS=etc/sample
-export BACKEND_BOOK_DATA=etc
+export BACKEND_BOOKS=dist
+export BACKEND_BOOK_DATA=dist
 export BACKEND_MYSQL_CONN="mysql+pymysql://root:password@denv.host/test?charset=utf8"
 export BACKEND_CORS=1
 export BACKEND_REGION="ap-northeast-1"

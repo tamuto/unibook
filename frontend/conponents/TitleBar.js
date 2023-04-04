@@ -40,7 +40,7 @@ const TitleBar = () => {
   }
 
   const moveAccount = () => {
-    navigate('/books/account')
+    navigate('/books/account/info')
   }
 
   useEffect(() => {
