@@ -15,9 +15,9 @@ const useLoginState = create((set) => ({
     try {
       const data = await Auth.currentSession()
       axios.defaults.headers.common.Authorization = data.idToken.jwtToken
-
+      await axios.get('/api/init')
       // ログイン状態の初期化
-      set({ mode: 1 })
+      set({ mode: 1, userInfo: data })
     } catch (e) {
       set({ mode: 0 })
     }
@@ -26,7 +26,7 @@ const useLoginState = create((set) => ({
     set({ mode: 0 })
   },
   signIn: async () => {
-    set({ mode: 1 })
+    useLoginState.getState().init
   },
   signUp: async () => {
     set({ mode: 2 })

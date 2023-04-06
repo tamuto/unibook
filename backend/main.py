@@ -7,6 +7,7 @@ from .engine.depends import HeaderCheck
 from .engine.depends import Payload
 
 from .engine import books
+from .engine import init
 from .engine.records import DataManager
 
 from .utils import config
@@ -31,6 +32,11 @@ if config.get_CORS() == '1':
 @app.get('/')
 def root():
     return RedirectResponse('/static')
+
+
+@app.get('/api/init')
+def get_user_info(sub: dict = Payload()):
+    return init.get_init(sub)
 
 
 @app.get('/api/books')

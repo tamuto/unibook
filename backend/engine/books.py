@@ -21,8 +21,6 @@ def make_item(filename):
 
 def get_booklist(sub: dict):
     folder = os.path.join(config.get_BOOKS(), get_current_user_id(sub))
-    if not os.path.exists(folder):
-        os.makedirs(folder)
     return [make_item(f) for f in glob(f'{folder}/*.yaml')]
 
 

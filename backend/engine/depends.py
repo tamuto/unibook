@@ -1,5 +1,4 @@
 from ..utils import config
-
 from typing import Optional
 
 import cognitojwt

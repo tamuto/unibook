@@ -62,7 +62,7 @@ const TitleBar = () => {
             <IconButton onClick={handleClick}>
               <PersonIcon color="disabled" />
             </IconButton>
-            <Typography>{user.username}</Typography>
+            <Typography>{user?.username}</Typography>
           </>
         }
         {

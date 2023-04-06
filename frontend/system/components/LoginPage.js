@@ -36,7 +36,8 @@ const LoginPage = () => {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
 
-  const signIn = useLoginState((state) => state.signIn)
+  const toSignIn = useLoginState((state) => state.toSignIn)
+  const init = useLoginState((state) => state.init)
   const signUp = useLoginState((state) => state.signUp)
   const passwordReset = useLoginState((state) => state.passwordReset)
 
@@ -44,9 +45,10 @@ const LoginPage = () => {
     try {
       await Auth.signIn(event.user_name, event.password)
       setIsLoggedIn(true)
-      signIn()
+      init()
     } catch (error) {
       alert('サインインに失敗しました。もう一度サインインしてください。')
+      toSignIn()
     }
   }
 
