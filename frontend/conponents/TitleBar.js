@@ -15,6 +15,7 @@ import {
 import BookIcon from '@mui/icons-material/MenuBook'
 import PersonIcon from '@mui/icons-material/Person'
 import { AuthContext } from '../main'
+import useLoginState from '~/system/api/useLoginState'
 
 const TitleBar = () => {
   const navigate = useNavigate()
@@ -29,19 +30,11 @@ const TitleBar = () => {
     setAnchorEl(null)
   }
 
-  const handleSignOut = async () => {
-    try {
-      handleClose()
-      await Auth.signOut()
-      setIsLoggedIn(false)
-      navigate('/books')
-    } catch (error) {
-    }
-  }
-
   const moveAccount = () => {
     navigate('/books/account/info')
   }
+
+  const singOut = useLoginState((state) => state.singOut)
 
   useEffect(() => {
     const checkUser = async () => {
@@ -80,7 +73,7 @@ const TitleBar = () => {
             onClose={handleClose}
           >
             <MenuItem onClick={moveAccount}>アカウント管理</MenuItem>
-            <MenuItem onClick={handleSignOut}>サインアウト</MenuItem>
+            <MenuItem onClick={singOut}>サインアウト</MenuItem>
           </Menu>
         }
       </Toolbar>

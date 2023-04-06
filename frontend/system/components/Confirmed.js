@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
+import { useForm } from 'react-hook-form'
 
 import {
   Box,
@@ -11,8 +11,8 @@ import {
   Typography
 } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
 import LogoImg from '../../../etc/unibook.png'
+import useLoginState from '~/system/api/useLoginState'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -29,15 +29,15 @@ const LoginForm = styled(Box)`
 `
 
 const Confirmed = () => {
-  const location = useLocation()
-  const event = location.state
+  const { userInfo } = useLoginState()
+  const toSignIn = useLoginState((state) => state.toSignIn)
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const _confirmed = async (event) => {
     try {
       await Auth.confirmSignUp(event.user_name, event.authcode)
       alert('アカウントを登録しました。')
-      navigate('/books')
+      toSignIn()
     } catch (error) {
       alert('認証に失敗しました。もう一度認証コードをご確認ください。')
     }
@@ -45,14 +45,14 @@ const Confirmed = () => {
 
   const resendSignUp = async () => {
     try {
-      await Auth.resendSignUp(event.user_name);
+      await Auth.resendSignUp(userInfo.user_name);
+      alert('本人認証メールを再送しました。')
     } catch (error) {
     }
   }
 
   const onSubmit = handleSubmit(_confirmed)
 
-  const navigate = useNavigate()
 
 
   return (

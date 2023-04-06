@@ -17,6 +17,7 @@ specifiers:
   react-dom: ^18.2.0
   react-hook-form: ^7.37.0
   react-router-dom: ^6.4.2
+  zustand: ^4.3.7
 
 dependencies:
   '@aws-amplify/ui-react': 4.4.0_wz2wo7nhxrlrumw462f3vrpyiq
@@ -32,6 +33,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.37.0_react@18.2.0
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
+  zustand: 4.3.7_react@18.2.0
 
 devDependencies:
   '@babel/core': 7.19.3
@@ -5665,4 +5667,20 @@ packages:
     resolution: {integrity: sha512-Qv4qvc8ZIue51B/0zmeIMxpIGDVhz4GhJALBvnKs/FRa2T7jy4Ori9wFwaHVt0zWV7MIFglKAHbgnVxVTw7U1w==}
     dependencies:
       zen-observable: 0.7.1
+    dev: false
+
+  /zustand/4.3.7_react@18.2.0:
+    resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
     dev: false

@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
-import styled from '@emotion/styled'
-import { useNavigate } from 'react-router-dom'
 import { Amplify, Auth } from 'aws-amplify'
-import environ from '~/environ.json'
 import { AuthContext } from '../../main'
+import { useForm } from 'react-hook-form'
+import styled from '@emotion/styled'
 
 import {
   Box,
@@ -13,8 +12,9 @@ import {
   Typography
 } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
 import LogoImg from '../../../etc/unibook.png'
+import environ from '~/environ.json'
+import useLoginState from '~/system/api/useLoginState'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -36,27 +36,21 @@ const LoginPage = () => {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
 
+  const signIn = useLoginState((state) => state.signIn)
+  const signUp = useLoginState((state) => state.signUp)
+  const passwordReset = useLoginState((state) => state.passwordReset)
+
   const _signIn = async (event) => {
     try {
       await Auth.signIn(event.user_name, event.password)
       setIsLoggedIn(true)
-      navigate('/books/home')
+      signIn()
     } catch (error) {
       alert('サインインに失敗しました。もう一度サインインしてください。')
     }
   }
 
-  const passwordReset = () => {
-    navigate('/books/passwordreset')
-  }
-
-  const signup = () => {
-    navigate('/books/signup')
-  }
-
   const onSubmit = handleSubmit(_signIn)
-
-  const navigate = useNavigate()
 
 
   return (
@@ -110,7 +104,7 @@ const LoginPage = () => {
         <Button
           size='small'
           variant='text'
-          onClick={signup}
+          onClick={signUp}
         >アカウントを作成
         </Button>
       </Box>
