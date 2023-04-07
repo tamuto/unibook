@@ -3,7 +3,6 @@ import os
 from glob import glob
 
 from ..utils import config
-from ..engine.depends import get_current_user_id
 
 
 def load_yaml(filename):
@@ -19,12 +18,17 @@ def make_item(filename):
     }
 
 
-def get_booklist(sub: dict):
-    folder = os.path.join(config.get_BOOKS(), get_current_user_id(sub))
+def get_booklist(user_id):
+    '''
+    指定されたユーザIDの下にあるYaml一覧を取得する。
+    '''
+    folder = os.path.join(config.get_BOOKS(), user_id)
     return [make_item(f) for f in glob(f'{folder}/*.yaml')]
 
 
-def get_book(book_id, payload: dict):
+def get_book(book_id, user_id):
+    '''
+    指定されたユーザIDとブックIDのYamlを取得する。
+    '''
     folder = config.get_BOOKS()
-    sub_id = get_current_user_id(payload)
-    return load_yaml(f'{folder}/{sub_id}/{book_id}.yaml')
+    return load_yaml(f'{folder}/{user_id}/{book_id}.yaml')

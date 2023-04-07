@@ -12,8 +12,8 @@ userpool_id = config.get_USERPOOL_ID()
 client_id = config.get_CLIENT_ID()
 
 
-def get_current_user_id(sub):
-    return sub['sub']
+def get_current_user_id(payload):
+    return payload['sub']
 
 
 def Payload():

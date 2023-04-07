@@ -1,10 +1,9 @@
 from ..utils import config
 import os
-from .depends import get_current_user_id
 
 
-def get_init(sub: dict):
-    folder = os.path.join(config.get_BOOKS(), get_current_user_id(sub))
+def get_init(user_id):
+    folder = os.path.join(config.get_BOOKS(), user_id)
     if not os.path.exists(folder):
         os.makedirs(folder)
         return {
