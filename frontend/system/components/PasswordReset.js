@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router-dom'
 import { Auth } from "aws-amplify"
+import { useForm } from 'react-hook-form'
 
 import {
   Box,
@@ -11,8 +11,8 @@ import {
   Typography
 } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
 import LogoImg from '../../../etc/unibook.png'
+import useLoginState from '~/system/api/useLoginState'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -31,23 +31,19 @@ const LoginForm = styled(Box)`
 const PasswordReset = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
+  const toSignIn = useLoginState((state) => state.toSignIn)
+  const newPassword = useLoginState((state) => state.newPassword)
+
   const _passwordReset = async (event) => {
     try {
       await Auth.forgotPassword(event.user_name)
-      navigate('/books/newpassword', { state: event })
+      newPassword(event)
     } catch (error) {
       alert('IDが見つかりませんでした。正しいIDを入力してください。')
     }
   }
 
-  const signIn = () => {
-    navigate('/books')
-  }
-
   const onSubmit = handleSubmit(_passwordReset)
-
-  const navigate = useNavigate()
-
 
   return (
     <LoginBox>
@@ -74,7 +70,7 @@ const PasswordReset = () => {
           <Box mt={3}>
             <Button
               variant='text'
-              onClick={signIn}
+              onClick={toSignIn}
             >
               サインインに戻る
             </Button>

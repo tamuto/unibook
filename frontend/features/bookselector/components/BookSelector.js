@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
+import { Auth } from 'aws-amplify'
 
 import {
   List,
@@ -10,12 +11,16 @@ import {
   Typography
 } from '@mui/material'
 
+
 const BookSelector = () => {
   const [books, setBooks] = useState([])
 
   const _loadBooks = async () => {
+    const data = await Auth.currentSession()
+    axios.defaults.headers.common.Authorization = data.idToken.jwtToken
     const result = await axios.get('/api/books')
     setBooks(result.data)
+    await Auth.currentUserInfo()
   }
 
   useEffect(() => {

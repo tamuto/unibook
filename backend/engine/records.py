@@ -42,10 +42,10 @@ sql_delete_record = "UPDATE st_book_record SET active_flag = :active_flag, updat
 
 class DataManager:
 
-    def __init__(self, book_id):
+    def __init__(self, book_id, user_id):
         folder = config.get_BOOK_DATA()
         self.book_id = book_id
-        self.database = f'{folder}/{self.book_id}.sqlite'
+        self.database = f'{folder}/{user_id}/{self.book_id}.sqlite'
         new_flag = True
         if os.path.exists(self.database):
             new_flag = False

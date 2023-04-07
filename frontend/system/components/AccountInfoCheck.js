@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 
 import {
@@ -11,6 +10,7 @@ import {
 } from '@mui/material'
 
 import LogoImg from '../../../etc/unibook.png'
+import useLoginState from '~/system/api/useLoginState'
 
 
 const LoginBox = styled(Stack)`
@@ -27,14 +27,9 @@ const LoginForm = styled(Box)`
 `
 
 const AccountInfoCheck = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const event = location.state
-
-  const signIn = () => {
-    navigate('/books')
-  }
-
+  const { userInfo } = useLoginState()
+  const toSignIn = useLoginState((state) => state.toSignIn)
+  const confirmed = useLoginState((state) => state.confirmed)
   const handleSignUp = async (data) => {
     try {
       await Auth.signUp({
@@ -44,10 +39,10 @@ const AccountInfoCheck = () => {
           email: data.email
         }
       })
-      navigate('/books/signup/confirmed', { state: data })
+      confirmed(data)
     } catch (error) {
       alert('アカウントを登録できませんでした。サインアップ画面に移動します。')
-      navigate('/books/signup')
+      toSignIn()
     }
   }
 
@@ -67,7 +62,7 @@ const AccountInfoCheck = () => {
               ID:
             </Typography>
             <Typography fontWeight='bold'>
-              {event.user_name}
+              {userInfo.user_name}
             </Typography>
           </Stack>
           <Stack direction='row' fontWeight='bold'>
@@ -75,7 +70,7 @@ const AccountInfoCheck = () => {
               メールアドレス:
             </Typography>
             <Typography fontWeight='bold'>
-              {event.email}
+              {userInfo.email}
             </Typography>
           </Stack>
           <Stack direction='row'>
@@ -83,7 +78,7 @@ const AccountInfoCheck = () => {
               パスワード:
             </Typography>
             <Typography fontWeight='bold'>
-              {event.password.split('').map((char, index) => (
+              {userInfo.password.split('').map((char, index) => (
                 char === ' ' ? <span key={index}>&nbsp;</span> : <span key={index}>*</span>
               ))}
             </Typography>
@@ -91,14 +86,14 @@ const AccountInfoCheck = () => {
           <Box mt={3}>
             <Button
               variant='text'
-              onClick={signIn}
+              onClick={toSignIn}
             >
               サインインに戻る
             </Button>
             <Button
               variant='contained'
               sx={{ float: 'right' }}
-              onClick={() => handleSignUp(event)}
+              onClick={() => handleSignUp(userInfo)}
             >
               アカウント作成
             </Button>
