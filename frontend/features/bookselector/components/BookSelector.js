@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom'
 import axios from 'axios'
 import { Auth } from 'aws-amplify'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 import {
+  IconButton,
   List,
   ListItemButton,
   ListItemText,
   Paper,
+  Stack,
   Typography
 } from '@mui/material'
 
 
 const BookSelector = () => {
   const [books, setBooks] = useState([])
+  const navigate = useNavigate()
 
   const _loadBooks = async () => {
     const data = await Auth.currentSession()
@@ -23,13 +27,22 @@ const BookSelector = () => {
     await Auth.currentUserInfo()
   }
 
+  const moveShereBook = () => {
+    navigate('/books/share')
+  }
+
   useEffect(() => {
     _loadBooks()
   }, [])
 
   return (
     <Paper sx={{ width: '600px', mx: 'auto', p: 2 }}>
-      <Typography variant='h6'>選択してください。</Typography>
+      <Stack direction='row' alignItems='center' justifyContent='space-between' spacing={1}>
+        <Typography variant='h6'>選択してください。</Typography>
+        <IconButton onClick={moveShereBook}>
+          <AddCircleIcon />
+        </IconButton>
+      </Stack>
       <List>
         {
           books.map((item) => (

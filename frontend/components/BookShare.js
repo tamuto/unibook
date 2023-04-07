@@ -26,11 +26,11 @@ const BookShare = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const _bookShare = () => {
-    navigate('/books/home')
+    navigate('/books')
   }
 
   const cancel = () => {
-    navigate('/books/home')
+    navigate('/books')
   }
 
   const onSubmit = handleSubmit(_bookShare)
