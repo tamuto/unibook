@@ -6,7 +6,7 @@ import {
   Button,
   Box
 } from '@mui/material'
-import HeadBox from '../conponents/Header'
+import HeadBox from '../components/Header'
 import { useNavigate } from 'react-router-dom'
 import { Auth } from "aws-amplify"
 import { useState, useEffect } from 'react'
