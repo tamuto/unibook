@@ -76,6 +76,14 @@ const Account = () => {
               {userSession?.attributes?.email}
             </Typography>
           </Stack>
+          <Stack direction='row'>
+            <Typography style={{ width: '200px' }} fontWeight='bold'>
+              サブID:
+            </Typography>
+            <Typography fontWeight='bold'>
+              {userSession?.attributes?.sub}
+            </Typography>
+          </Stack>
           <Button
             style={{ width: '150px' }}
             color='secondary'

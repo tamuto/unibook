@@ -15,3 +15,15 @@ def get_BOOKS():
 
 def get_BOOK_DATA():
     return os.environ.get('BACKEND_BOOK_DATA')
+
+
+def get_REGION():
+    return os.environ.get('BACKEND_REGION')
+
+
+def get_USERPOOL_ID():
+    return os.environ.get('BACKEND_USERPOOL_ID')
+
+
+def get_CLIENT_ID():
+    return os.environ.get('BACKEND_CLIENT_ID')

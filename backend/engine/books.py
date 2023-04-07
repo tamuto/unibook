@@ -1,4 +1,5 @@
 import yaml
+import os
 from glob import glob
 
 from ..utils import config
@@ -17,11 +18,17 @@ def make_item(filename):
     }
 
 
-def get_booklist():
-    folder = config.get_BOOKS()
+def get_booklist(user_id):
+    '''
+    指定されたユーザIDの下にあるYaml一覧を取得する。
+    '''
+    folder = os.path.join(config.get_BOOKS(), user_id)
     return [make_item(f) for f in glob(f'{folder}/*.yaml')]
 
 
-def get_book(book_id):
+def get_book(book_id, user_id):
+    '''
+    指定されたユーザIDとブックIDのYamlを取得する。
+    '''
     folder = config.get_BOOKS()
-    return load_yaml(f'{folder}/{book_id}.yaml')
+    return load_yaml(f'{folder}/{user_id}/{book_id}.yaml')

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { Auth } from "aws-amplify"
+import { useForm } from 'react-hook-form'
 
 import {
   Box,
@@ -11,8 +11,8 @@ import {
   Typography
 } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
 import LogoImg from '../../../etc/unibook.png'
+import useLoginState from '~/system/api/useLoginState'
 
 const LoginBox = styled(Stack)`
   display: flex;
@@ -29,27 +29,22 @@ const LoginForm = styled(Box)`
 `
 
 const SignUp = () => {
-  const location = useLocation()
-  const name = location.state
+  const { userInfo } = useLoginState()
+  const toSignIn = useLoginState((state) => state.toSignIn)
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
+
 
   const _newPassword = async (event) => {
     try {
-      await Auth.forgotPasswordSubmit(name.user_name, event.authcode, event.confirmPassword)
+      await Auth.forgotPasswordSubmit(userInfo.user_name, event.authcode, event.confirmPassword)
       alert('パスワードを変更しました。')
-      navigate('/books')
+      toSignIn()
     } catch (error) {
       alert('認証に失敗しました。もう一度認証コードをご確認ください。')
     }
   }
 
-  const signIn = () => {
-    navigate('/books')
-  }
-
   const onSubmit = handleSubmit(_newPassword)
-
-  const navigate = useNavigate()
 
   const newPassword = watch('new')
 
@@ -106,7 +101,7 @@ const SignUp = () => {
           <Box mt={3}>
             <Button
               variant='text'
-              onClick={signIn}
+              onClick={toSignIn}
             >
               サインインに戻る
             </Button>

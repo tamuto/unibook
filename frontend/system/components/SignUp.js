@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router-dom'
-import { Auth } from 'aws-amplify'
+import { useForm } from 'react-hook-form'
 
 import {
   Box,
@@ -11,8 +10,8 @@ import {
   Typography
 } from '@mui/material'
 
-import { useForm } from 'react-hook-form'
 import LogoImg from '../../../etc/unibook.png'
+import useLoginState from '~/system/api/useLoginState'
 
 
 const LoginBox = styled(Stack)`
@@ -32,17 +31,16 @@ const LoginForm = styled(Box)`
 const SignUp = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
+  const accountInfoCheck = useLoginState((state) => state.accountInfoCheck)
+
   const _signUp = async (event) => {
-    navigate('/books/signup/account/check', { state: event })
+    accountInfoCheck(event)
   }
 
-  const signIn = () => {
-    navigate('/books')
-  }
+  const toSignIn = useLoginState((state) => state.toSignIn)
 
   const onSubmit = handleSubmit(_signUp)
 
-  const navigate = useNavigate()
 
   const password = watch('password')
 
@@ -102,7 +100,7 @@ const SignUp = () => {
           <Box mt={3}>
             <Button
               variant='text'
-              onClick={signIn}
+              onClick={toSignIn}
             >
               サインインに戻る
             </Button>

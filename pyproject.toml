@@ -13,6 +13,7 @@ PyMySQL = "^1.0.2"
 aiofiles = "^0.7.0"
 PyYAML = "^6.0"
 dbcolls = "^0.1.0"
+cognitojwt = {extras = ["async"], version = "^1.4.1"}
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
