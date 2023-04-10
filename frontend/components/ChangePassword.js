@@ -6,7 +6,7 @@ import {
   Stack,
   TextField
 } from '@mui/material'
-import HeadBox from '../conponents/Header'
+import HeadBox from '~/components/Header'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Auth } from "aws-amplify"

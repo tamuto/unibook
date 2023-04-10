@@ -14,8 +14,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import OutputIcon from '@mui/icons-material/Output'
 
 import Display from './Display'
-import HeadBox from '../../../conponents/Header'
-import RequestConfirmation from '~/conponents/RequestConfirmation'
+import HeadBox from '../../../components/Header'
+import RequestConfirmation from '~/components/RequestConfirmation'
 import Search from './Search'
 import useBookForm from '../api/useBookForm'
 

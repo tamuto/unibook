@@ -11,12 +11,13 @@ import {
   Toolbar
 } from '@mui/material'
 
-import Account from '~/conponents/Account'
+import Account from '~/components/Account'
 import BookEditor from '~/features/bookform/components/BookEditor'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookSelector from '~/features/bookselector/components/BookSelector'
-import ChangePassword from '~/conponents/ChangePassword'
-import TitleBar from '~/conponents/TitleBar'
+import BookShare from '~/components/BookShare'
+import ChangePassword from '~/components/ChangePassword'
+import TitleBar from '~/components/TitleBar'
 
 const MainPage = () => {
   return (
@@ -28,6 +29,7 @@ const MainPage = () => {
           <Routes>
             <Route path='/' element={<Navigate to='/books' />} />
             <Route path='/books' element={<BookSelector />} />
+            <Route path='/books/share' element={<BookShare />} />
             <Route path='/books/account/info' element={<Account />} />
             <Route path='/books/account/password' element={<ChangePassword />} />
             <Route path='/books/:form' element={<BookForm />} />

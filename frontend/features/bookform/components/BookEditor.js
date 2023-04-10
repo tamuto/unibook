@@ -6,7 +6,7 @@ import {
   Button
 } from '@mui/material'
 import useBookEditor from '../api/useBookEditor'
-import HeadBox from '../../../conponents/Header'
+import HeadBox from '../../../components/Header'
 
 
 const BookEditor = () => {
