@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
+import axios from 'axios'
 
 import {
   Box,
@@ -25,7 +26,10 @@ const BookShare = () => {
   const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const _bookShare = () => {
+  const _bookShare = async (event) => {
+    const sub_id = event.sub
+    const book_id = event.book
+    await axios.post(`/api/share/${sub_id}/${book_id}`)
     navigate('/books')
   }
 

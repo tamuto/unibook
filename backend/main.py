@@ -67,6 +67,12 @@ def get_data_at(book_id, record_no, payload: dict = Payload()):
         return dm.query(record_no)
 
 
+@app.post('/api/share/{sub_id}/{book_id}')
+def shere_books(sub_id: str, book_id: str, payload: dict = Payload()):
+    user_id = get_current_user_id(payload)
+    return books.share_book(sub_id, book_id, user_id)
+
+
 @app.post('/data/{book_id}')
 def insert_data(book_id, data=Body(...), payload: dict = Payload()):
     user_id = get_current_user_id(payload)

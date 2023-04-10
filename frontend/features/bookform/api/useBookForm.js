@@ -34,7 +34,7 @@ const useBookForm = () => {
   }
 
   const moveHome = () => {
-    navigate('/books/home')
+    navigate('/books')
   }
 
   const moveEdit = async (item) => {
