@@ -29,6 +29,7 @@ const LoginForm = styled(Box)`
 `
 
 const PasswordReset = () => {
+  const { setAlertInfo } = useLoginState()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const toSignIn = useLoginState((state) => state.toSignIn)
@@ -39,7 +40,11 @@ const PasswordReset = () => {
       await Auth.forgotPassword(event.user_name)
       newPassword(event)
     } catch (error) {
-      alert('IDが見つかりませんでした。正しいIDを入力してください。')
+      setAlertInfo({
+        display: true,
+        message: 'IDが見つかりませんでした。正しいIDを入力してください。',
+        variant: 'error'
+      })
     }
   }
 

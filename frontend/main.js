@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { SnackbarProvider } from 'notistack'
 
 import {
   CssBaseline
@@ -14,6 +15,7 @@ import Confirmed from '~/system/components/Confirmed'
 import NewPassword from '~/system/components/NewPassword'
 import PasswordReset from '~/system/components/PasswordReset'
 import SignUp from '~/system/components/SignUp'
+import Snackbar from '~/components/Snackbar'
 
 import { Amplify } from 'aws-amplify'
 import '@aws-amplify/ui-react/styles.css'
@@ -29,31 +31,38 @@ const App = () => {
   const loginState = useLoginState()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
+  const { alertInfo } = useLoginState()
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {
-          loginState.mode === 0 && <LoginPage />
-        }
-        {
-          loginState.mode === 1 && <MainPage />
-        }
-        {
-          loginState.mode === 2 && <SignUp />
-        }
-        {
-          loginState.mode === 3 && <AccountInfoCheck />
-        }
-        {
-          loginState.mode === 4 && <Confirmed />
-        }
-        {
-          loginState.mode === 5 && <PasswordReset />
-        }
-        {
-          loginState.mode === 6 && <NewPassword />
-        }
+        <SnackbarProvider>
+          {alertInfo?.display && (
+            <Snackbar alertInfo={alertInfo}></Snackbar>
+          )}
+          {
+            loginState.mode === 0 && <LoginPage />
+          }
+          {
+            loginState.mode === 1 && <MainPage />
+          }
+          {
+            loginState.mode === 2 && <SignUp />
+          }
+          {
+            loginState.mode === 3 && <AccountInfoCheck />
+          }
+          {
+            loginState.mode === 4 && <Confirmed />
+          }
+          {
+            loginState.mode === 5 && <PasswordReset />
+          }
+          {
+            loginState.mode === 6 && <NewPassword />
+          }
+        </SnackbarProvider>
       </ThemeProvider>
     </AuthContext.Provider>
   )

@@ -31,22 +31,34 @@ const LoginForm = styled(Box)`
 const Confirmed = () => {
   const { userInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
+  const { setAlertInfo } = useLoginState()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const _confirmed = async (event) => {
     try {
       await Auth.confirmSignUp(event.user_name, event.authcode)
-      alert('アカウントを登録しました。')
-      toSignIn()
+      toSignIn({
+        display: true,
+        message: 'アカウントを登録しました。',
+        variant: 'success'
+      })
     } catch (error) {
-      alert('認証に失敗しました。もう一度認証コードをご確認ください。')
+      setAlertInfo({
+        display: true,
+        message: '認証に失敗しました。もう一度認証コードをご確認ください。',
+        variant: 'info'
+      })
     }
   }
 
   const resendSignUp = async () => {
     try {
       await Auth.resendSignUp(userInfo.user_name);
-      alert('本人認証メールを再送しました。')
+      setAlertInfo({
+        display: true,
+        message: '本人認証メールを再送しました。',
+        variant: 'info'
+      })
     } catch (error) {
     }
   }
