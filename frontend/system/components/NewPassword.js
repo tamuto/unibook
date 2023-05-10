@@ -30,6 +30,7 @@ const LoginForm = styled(Box)`
 
 const SignUp = () => {
   const { userInfo } = useLoginState()
+  const { setAlertInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
@@ -37,10 +38,17 @@ const SignUp = () => {
   const _newPassword = async (event) => {
     try {
       await Auth.forgotPasswordSubmit(userInfo.user_name, event.authcode, event.confirmPassword)
-      alert('パスワードを変更しました。')
-      toSignIn()
+      toSignIn({
+        display: true,
+        message: 'パスワードを変更しました。',
+        variant: 'success'
+      })
     } catch (error) {
-      alert('認証に失敗しました。もう一度認証コードをご確認ください。')
+      setAlertInfo({
+        display: true,
+        message: '認証に失敗しました。もう一度認証コードをご確認ください。',
+        variant: 'error'
+      })
     }
   }
 

@@ -32,11 +32,11 @@ const LoginForm = styled(Box)`
 
 const LoginPage = () => {
   Amplify.configure(environ.AwsConfig)
+  const { setAlertInfo } = useLoginState()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
 
-  const toSignIn = useLoginState((state) => state.toSignIn)
   const init = useLoginState((state) => state.init)
   const signUp = useLoginState((state) => state.signUp)
   const passwordReset = useLoginState((state) => state.passwordReset)
@@ -47,8 +47,11 @@ const LoginPage = () => {
       setIsLoggedIn(true)
       init()
     } catch (error) {
-      alert('サインインに失敗しました。もう一度サインインしてください。')
-      toSignIn()
+      setAlertInfo({
+        display: true,
+        message: 'サインインに失敗しました。もう一度サインインしてください。',
+        variant: 'error'
+      })
     }
   }
 
