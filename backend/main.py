@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+# from fastapi.staticfiles import StaticFiles
+# from fastapi.responses import RedirectResponse
 
 from .engine.depends import HeaderCheck
 from .engine.depends import Payload
@@ -15,9 +15,6 @@ from .utils import config
 
 app = FastAPI(dependencies=[HeaderCheck()])
 
-
-app.mount('/static', StaticFiles(directory='dist', html=True), name='static')
-
 if config.get_CORS() == '1':
     origins = ['http://localhost:8080']
 
@@ -28,11 +25,6 @@ if config.get_CORS() == '1':
         allow_methods=['GET', 'POST', 'PUT', 'DELETE'],
         allow_headers=['*']
     )
-
-
-@app.get('/')
-def root():
-    return RedirectResponse('/static')
 
 
 @app.get('/api/init')

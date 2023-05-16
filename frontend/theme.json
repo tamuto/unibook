@@ -99,6 +99,21 @@
             "defaultProps": {
                 "spacing": 2
             }
+        },
+        "In4UILibs": {
+            "breakpoint": "@media screen and (max-width: 768px)",
+            "requiredLabel": "(必須)"
+        },
+        "In4DataTable": {
+            "defaultProps": {
+                "borderColor": "rgba(128, 128, 128, 1)",
+                "headerColor": "rgba(74, 74, 74, 1)",
+                "headerBgColor": "rgba(160, 208, 208, 1)",
+                "color": "rgba(74, 74, 74, 1)",
+                "bgColor": "inherit",
+                "alternativeColor": "inherit",
+                "alternativeBgColor": "#FFFFFF"
+            }
         }
     }
 }
