@@ -19,22 +19,10 @@ import RequestConfirmation from '~/components/RequestConfirmation'
 import Search from './Search'
 import useBookForm from '../api/useBookForm'
 
-import DataCell from 'github://tamuto/boilerplate/uilib/components/datarow/DataCell.js'
-import DataHead from 'github://tamuto/boilerplate/uilib/components/datarow/DataHead.js'
-import DataRow from 'github://tamuto/boilerplate/uilib/components/datarow/DataRow.js'
-
-const DataTable = styled.div`
-  & .DataHead {
-    border-bottom: solid 2px grey;
-    background-color: #a0d0d0;
-  }
-  & .DataRow {
-    border-bottom: solid 1px grey;
-  }
-  & .DataRow:nth-of-type(odd) {
-    background-color: #FFFFFF;
-  }
-`
+import DataTable from 'github://tamuto/uilib/components/datarow/DataTable.js'
+import DataCell from 'github://tamuto/uilib/components/datarow/DataCell.js'
+import DataHead from 'github://tamuto/uilib/components/datarow/DataHead.js'
+import DataRow from 'github://tamuto/uilib/components/datarow/DataRow.js'
 
 const BookForm = () => {
   const { openModal, data, newEntry, moveHome, moveEdit, toggleModal, moveDelete } = useBookForm()
