@@ -38,6 +38,6 @@ def share_book(sub_id, book_id, user_id):
     '''
     指定されたユーザIDとブックIDのシンボリックリンクを作成する。
     '''
-    target_path = os.path.join('..', sub_id, f'{book_id}.yaml')
-    link_dir = os.path.join(config.get_BOOKS(), user_id, f'{book_id}.yaml')
+    target_path = os.path.join('..', user_id, f'{book_id}.yaml')
+    link_dir = os.path.join(config.get_BOOKS(), sub_id, f'{book_id}.yaml')
     os.symlink(target_path, link_dir)
