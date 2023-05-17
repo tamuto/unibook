@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import axios from 'axios'
 import { Auth } from 'aws-amplify'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+import ShareIcon from '@mui/icons-material/Share'
 
 import {
   IconButton,
@@ -40,17 +40,19 @@ const BookSelector = () => {
       <Stack direction='row' alignItems='center' justifyContent='space-between' spacing={1}>
         <Typography variant='h6'>選択してください。</Typography>
         <IconButton onClick={moveShereBook}>
-          <AddCircleIcon />
+          <ShareIcon />
         </IconButton>
       </Stack>
       <List>
-        {
+        {books.length === 0 ? (
+          <Typography variant="body1">台帳が登録されていません。</Typography>
+        ) : (
           books.map((item) => (
             <ListItemButton key={item.book_id} component={NavLink} to={`/books/${item.book_id}`}>
               <ListItemText primary={item.book_name} />
             </ListItemButton>
           ))
-        }
+        )}
       </List>
     </Paper>
   )

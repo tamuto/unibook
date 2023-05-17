@@ -46,19 +46,19 @@ const BookShare = () => {
           台帳共有
         </Typography>
         <Typography variant='subtitle1' style={{ fontWeight: 'bold' }} >
-          入力先の台帳が共有されます。
+          入力先に台帳が共有されます。
         </Typography>
         <Typography variant='caption'>
-          共有する方のサブIDと台帳IDを入力してください。
+          共有する方のリンクIDと台帳IDを入力してください。
         </Typography>
         <Stack direction='row'>
           <Typography style={{ width: '200px' }} fontWeight='bold'>
-            サブID:
+            リンクID:
           </Typography>
           <TextField
             fullWidth
             error={!!errors.sub}
-            helperText={errors.sub ? 'サブIDを入力してください。' : ''}
+            helperText={errors.sub ? 'リンクIDを入力してください。' : ''}
             {...register('sub', {
               required: true
             })}

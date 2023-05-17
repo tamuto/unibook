@@ -78,7 +78,7 @@ const Account = () => {
           </Stack>
           <Stack direction='row'>
             <Typography style={{ width: '200px' }} fontWeight='bold'>
-              サブID:
+              リンクID:
             </Typography>
             <Typography fontWeight='bold'>
               {userSession?.attributes?.sub}
