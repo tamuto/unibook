@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { Auth } from "aws-amplify"
 import { useForm } from 'react-hook-form'
 
@@ -7,30 +7,50 @@ import {
   Box,
   Button,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 
 import LogoImg from '../../../etc/unibook.png'
 import useLoginState from '~/system/api/useLoginState'
+import useMediaQuery from '~/api/useMediaQuery'
 
-const LoginBox = styled(Stack)`
-  display: flex;
-  align-items: center;
-`
-
-const LoginForm = styled(Box)`
-  width: 500px;
-  background-color: white;
-  border: solid 1px lightgrey;
-  border-radius: 5px;
-  padding: 15px;
-  margin: auto;
-`
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const PasswordReset = () => {
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    display: flex;
+    align-items: center;
+  `
+
+  const titleCss = css`
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    ${mobile} {
+      width: calc(75%);
+      max-width: 350px;
+    }
+  `
+
+  const formCss = css`
+    width: 500px;
+    background-color: white;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
   const { setAlertInfo } = useLoginState()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      user_name: ''
+    }
+  })
 
   const toSignIn = useLoginState((state) => state.toSignIn)
   const newPassword = useLoginState((state) => state.newPassword)
@@ -42,7 +62,7 @@ const PasswordReset = () => {
     } catch (error) {
       setAlertInfo({
         display: true,
-        message: 'IDが見つかりませんでした。正しいIDを入力してください。',
+        message: 'ユーザ名が見つかりませんでした。正しいユーザ名を入力してください。',
         variant: 'error'
       })
     }
@@ -51,26 +71,22 @@ const PasswordReset = () => {
   const onSubmit = handleSubmit(_passwordReset)
 
   return (
-    <LoginBox>
-      <Stack direction='row'>
-        <img src={LogoImg} width="500" style={{ marginBottom: '20px', marginTop: '20px' }} />
-      </Stack>
-      <LoginForm onSubmit={onSubmit}>
+    <Stack css={layoutCss}>
+      <img src={LogoImg} css={titleCss} />
+      <Box css={formCss} onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
             パスワードを忘れた
           </Typography>
           <Typography variant='caption'>
-            登録したIDを入力してください。
+            登録したユーザ名を入力してください。
           </Typography>
-          <TextField
-            fullWidth
-            label='ID'
-            error={!!errors.user_name}
-            helperText={errors.user_name ? 'IDを入力してください。' : ''}
-            {...register('user_name', {
-              required: true
-            })}
+          <HookFormField
+            type='text'
+            label='ユーザ名'
+            name='user_name'
+            rules={{ required: 'ユーザ名を入力してください。' }}
+            control={control}
           />
           <Box mt={3}>
             <Button
@@ -88,8 +104,8 @@ const PasswordReset = () => {
             </Button>
           </Box>
         </Stack>
-      </LoginForm>
-    </LoginBox>
+      </Box>
+    </Stack>
   )
 }
 

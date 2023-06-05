@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { SnackbarProvider } from 'notistack'
 
@@ -10,6 +10,7 @@ import res from './theme.json'
 import LoginPage from './system/components/LoginPage'
 import MainPage from './system/components/MainPage'
 import useLoginState from './system/api/useLoginState'
+import useMediaQuery from '~/api/useMediaQuery'
 import AccountInfoCheck from '~/system/components/AccountInfoCheck'
 import Confirmed from '~/system/components/Confirmed'
 import NewPassword from '~/system/components/NewPassword'
@@ -28,10 +29,17 @@ const theme = createTheme(res)
 export const AuthContext = createContext(null)
 
 const App = () => {
+  const mediaQuery = useMediaQuery()
   const loginState = useLoginState()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
   const { alertInfo } = useLoginState()
+  const init = useLoginState(state => state.init)
+
+  useEffect(() => {
+    mediaQuery.init(theme)
+    init()
+  }, [])
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
