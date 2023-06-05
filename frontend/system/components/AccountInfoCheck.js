@@ -1,5 +1,6 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { useForm } from 'react-hook-form'
+import { css } from '@emotion/react'
 import { Auth } from 'aws-amplify'
 
 import {
@@ -11,22 +12,49 @@ import {
 
 import LogoImg from '../../../etc/unibook.png'
 import useLoginState from '~/system/api/useLoginState'
+import useMediaQuery from '~/api/useMediaQuery'
 
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
-const LoginBox = styled(Stack)`
-  display: flex;
-  align-items: center;
-`
-const LoginForm = styled(Box)`
-  width: 500px;
-  background-color: white;
-  border: solid 1px lightgrey;
-  border-radius: 5px;
-  padding: 15px;
-  margin: auto;
-`
 
 const AccountInfoCheck = () => {
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    display: flex;
+    align-items: center;
+  `
+
+  const titleCss = css`
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    ${mobile} {
+      width: calc(75%);
+      max-width: 350px;
+    }
+  `
+
+  const formCss = css`
+    width: 500px;
+    background-color: white;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
+
+  const { control } = useForm({
+    defaultValues: {
+      user_name: '',
+      email: '',
+      password: ''
+    }
+  })
+
   const { userInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
   const confirmed = useLoginState((state) => state.confirmed)
@@ -34,7 +62,7 @@ const AccountInfoCheck = () => {
     try {
       await Auth.signUp({
         username: data.user_name,
-        password: data.confirmPassword,
+        password: data.password,
         attributes: {
           email: data.email
         }
@@ -47,9 +75,9 @@ const AccountInfoCheck = () => {
   }
 
   return (
-    <LoginBox>
-      <img src={LogoImg} width="500" style={{ marginBottom: '20px', marginTop: '20px' }} />
-      <LoginForm>
+    <Stack css={layoutCss}>
+      <img src={LogoImg} css={titleCss} />
+      <Box css={formCss}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
             サインアップ
@@ -57,50 +85,48 @@ const AccountInfoCheck = () => {
           <Typography>
             以下の情報で登録してよろしいですか？
           </Typography>
-          <Stack direction='row'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              ID:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userInfo.user_name}
-            </Typography>
-          </Stack>
-          <Stack direction='row' fontWeight='bold'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              メールアドレス:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userInfo.email}
-            </Typography>
-          </Stack>
-          <Stack direction='row'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              パスワード:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userInfo.password.split('').map((char, index) => (
-                char === ' ' ? <span key={index}>&nbsp;</span> : <span key={index}>*</span>
-              ))}
-            </Typography>
-          </Stack>
-          <Box mt={3}>
-            <Button
-              variant='text'
-              onClick={toSignIn}
-            >
-              サインインに戻る
-            </Button>
-            <Button
-              variant='contained'
-              sx={{ float: 'right' }}
-              onClick={() => handleSignUp(userInfo)}
-            >
-              アカウント作成
-            </Button>
-          </Box>
+          <HookFormField
+            label='ユーザ名'
+            type='text'
+            name='user_name'
+            value={userInfo.user_name}
+            control={control}
+            readonly
+          />
+          <HookFormField
+            label='メールアドレス'
+            type='text'
+            name='email'
+            value={userInfo.email}
+            control={control}
+            readonly
+          />
+          <HookFormField
+            label='パスワード'
+            type='password'
+            name='password'
+            value={userInfo.password}
+            control={control}
+            readonly
+          />
         </Stack>
-      </LoginForm>
-    </LoginBox>
+        <Box mt={3}>
+          <Button
+            variant='text'
+            onClick={toSignIn}
+          >
+            サインインに戻る
+          </Button>
+          <Button
+            variant='contained'
+            sx={{ float: 'right' }}
+            onClick={() => handleSignUp(userInfo)}
+          >
+            アカウント作成
+          </Button>
+        </Box>
+      </Box>
+    </Stack >
   )
 }
 export default AccountInfoCheck

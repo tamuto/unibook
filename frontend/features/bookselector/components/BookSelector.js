@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
-import axios from 'axios'
 import { Auth } from 'aws-amplify'
+import { css } from '@emotion/react'
+import axios from 'axios'
 import ShareIcon from '@mui/icons-material/Share'
+import useMediaQuery from '~/api/useMediaQuery'
 
 import {
   IconButton,
@@ -14,8 +16,17 @@ import {
   Typography
 } from '@mui/material'
 
-
 const BookSelector = () => {
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    width: 600px;
+    padding: 20px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
   const [books, setBooks] = useState([])
   const navigate = useNavigate()
 
@@ -36,7 +47,7 @@ const BookSelector = () => {
   }, [])
 
   return (
-    <Paper sx={{ width: '600px', mx: 'auto', p: 2 }}>
+    <Paper css={layoutCss}>
       <Stack direction='row' alignItems='center' justifyContent='space-between' spacing={1}>
         <Typography variant='h6'>選択してください。</Typography>
         <IconButton onClick={moveShereBook}>

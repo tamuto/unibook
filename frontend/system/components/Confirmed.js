@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { Auth } from 'aws-amplify'
 import { useForm } from 'react-hook-form'
 
@@ -7,36 +7,57 @@ import {
   Box,
   Button,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 
 import LogoImg from '../../../etc/unibook.png'
 import useLoginState from '~/system/api/useLoginState'
+import useMediaQuery from '~/api/useMediaQuery'
 
-const LoginBox = styled(Stack)`
-  display: flex;
-  align-items: center;
-`
-
-const LoginForm = styled(Box)`
-  width: 500px;
-  background-color: white;
-  border: solid 1px lightgrey;
-  border-radius: 5px;
-  padding: 15px;
-  margin: auto;
-`
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const Confirmed = () => {
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    display: flex;
+    align-items: center;
+  `
+
+  const titleCss = css`
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    ${mobile} {
+      width: calc(75%);
+      max-width: 350px;
+    }
+  `
+
+  const formCss = css`
+    width: 500px;
+    background-color: white;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
   const { userInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
   const { setAlertInfo } = useLoginState()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { handleSubmit, control, getValues } = useForm({
+    defaultValues: {
+      user_name: '',
+      authcode: ''
+    }
+  })
 
   const _confirmed = async (event) => {
     try {
-      await Auth.confirmSignUp(event.user_name, event.authcode)
+      await Auth.confirmSignUp(userInfo.user_name, event.authcode)
       toSignIn({
         display: true,
         message: 'アカウントを登録しました。',
@@ -65,12 +86,10 @@ const Confirmed = () => {
 
   const onSubmit = handleSubmit(_confirmed)
 
-
-
   return (
-    <LoginBox>
-      <img src={LogoImg} width="500" style={{ marginBottom: '20px', marginTop: '20px' }} />
-      <LoginForm onSubmit={onSubmit}>
+    <Stack css={layoutCss}>
+      <img src={LogoImg} width="500" css={titleCss} />
+      <Box css={formCss} onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
             サインアップ
@@ -81,23 +100,20 @@ const Confirmed = () => {
           <Typography variant='caption'>
             IDとメール記載の検証コードを入力してください。
           </Typography>
-          <TextField
-            fullWidth
-            label='ID'
-            error={!!errors.user_name}
-            helperText={errors.user_name ? 'IDを入力してください。' : ''}
-            {...register('user_name', {
-              required: true
-            })}
+          <HookFormField
+            label='ユーザ名'
+            type='text'
+            name='user_name'
+            value={userInfo.user_name}
+            control={control}
+            readonly
           />
-          <TextField
-            fullWidth
+          <HookFormField
+            type='text'
             label='検証コード'
-            error={!!errors.authcode}
-            helperText={errors.authcode ? '検証コードを入力してください。' : ''}
-            {...register('authcode', {
-              required: true
-            })}
+            name='authcode'
+            rules={{ required: '検証コードを入力してください。' }}
+            control={control}
           />
           <Box mt={3}>
             <Button
@@ -115,8 +131,8 @@ const Confirmed = () => {
             </Button>
           </Box>
         </Stack>
-      </LoginForm>
-    </LoginBox>
+      </Box>
+    </Stack>
   )
 }
 

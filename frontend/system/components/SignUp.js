@@ -1,35 +1,57 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
+import { css } from '@emotion/react'
 
 import {
   Box,
   Button,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 
 import LogoImg from '../../../etc/unibook.png'
 import useLoginState from '~/system/api/useLoginState'
-
-
-const LoginBox = styled(Stack)`
-  display: flex;
-  align-items: center;
-`
-
-const LoginForm = styled(Box)`
-  width: 500px;
-  background-color: white;
-  border: solid 1px lightgrey;
-  border-radius: 5px;
-  padding: 15px;
-  margin: auto;
-`
+import useMediaQuery from '~/api/useMediaQuery'
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const SignUp = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    display: flex;
+    align-items: center;
+  `
+
+  const titleCss = css`
+    width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    ${mobile} {
+      width: calc(75%);
+      max-width: 350px;
+    }
+  `
+
+  const formCss = css`
+    width: 500px;
+    background-color: white;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
+
+  const { handleSubmit, control, getValues } = useForm({
+    defaultValues: {
+      user_name: '',
+      email: '',
+      password: '',
+      confirm: ''
+    }
+  })
 
   const accountInfoCheck = useLoginState((state) => state.accountInfoCheck)
 
@@ -41,61 +63,45 @@ const SignUp = () => {
 
   const onSubmit = handleSubmit(_signUp)
 
-
-  const password = watch('password')
-
-
   return (
-    <LoginBox>
-      <img src={LogoImg} width="500" style={{ marginBottom: '20px', marginTop: '20px' }} />
-      <LoginForm onSubmit={onSubmit}>
+    <Stack css={layoutCss}>
+      <img src={LogoImg} css={titleCss} />
+      <Box css={formCss} onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <Typography variant='h5'>
             サインアップ
           </Typography>
-          <TextField
-            fullWidth
-            label='ID'
-            error={!!errors.user_name}
-            helperText={errors.user_name ? 'IDを入力してください。' : ''}
-            {...register('user_name', {
-              required: true
-            })}
+          <HookFormField
+            type='text'
+            label='ユーザ名'
+            name='user_name'
+            rules={{ required: 'ユーザ名を入力してください。' }}
+            control={control}
           />
-          <TextField
-            fullWidth
+          <HookFormField
+            type='text'
             label='メールアドレス'
-            error={!!errors.email}
-            helperText={errors.email ? 'メールアドレスを入力してください。' : ''}
-            {...register('email', {
-              required: true
-            })}
+            name='email'
+            rules={{ required: 'メールアドレスを入力してください。' }}
+            control={control}
           />
-          <TextField
-            fullWidth
+          <HookFormField
+            type='password'
             label='パスワード'
-            type='password'
-            error={!!errors.password && true}
-            helperText={errors.password && 'パスワードを入力してください。'}
-            {...register('password', {
-              required: true
-            })}
+            name='password'
+            rules={{ required: 'パスワードを入力してください。' }}
+            control={control}
           />
-          <TextField
-            fullWidth
-            label='パスワード(確認用)'
+          <HookFormField
             type='password'
-            error={!!errors.confirmPassword && true}
-            helperText={
-              errors.confirmPassword
-                ? 'パスワードが一致しません。'
-                : ''
-            }
-            {...register('confirmPassword', {
-              required: true,
+            label='パスワード(確認用)'
+            name='confirm'
+            rules={{
+              required: 'パスワード（確認用）を入力してください。',
               validate: (value) =>
-                value === password || 'パスワードが一致しません。'
-            })}
+                value === getValues('password') || 'パスワードが一致しません。'
+            }}
+            control={control}
           />
           <Box mt={3}>
             <Button
@@ -113,8 +119,8 @@ const SignUp = () => {
             </Button>
           </Box>
         </Stack>
-      </LoginForm>
-    </LoginBox>
+      </Box>
+    </Stack>
   )
 }
 export default SignUp
