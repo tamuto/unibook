@@ -57,7 +57,7 @@ const AccountInfoCheck = () => {
   })
 
   const { userInfo } = useLoginState()
-  const toSignIn = useLoginState((state) => state.toSignIn)
+  const signUp = useLoginState((state) => state.signUp)
   const confirmed = useLoginState((state) => state.confirmed)
   const handleSignUp = async (data) => {
     try {
@@ -114,9 +114,9 @@ const AccountInfoCheck = () => {
         <Box mt={3}>
           <Button
             variant='text'
-            onClick={toSignIn}
+            onClick={() => signUp(userInfo)}
           >
-            サインインに戻る
+            サインアップに戻る
           </Button>
           <Button
             variant='contained'
