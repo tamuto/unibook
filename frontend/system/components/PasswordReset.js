@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { Auth } from "aws-amplify"
 import { useForm } from 'react-hook-form'
+import { enqueueSnackbar } from 'notistack'
 
 import {
   Box,
@@ -45,7 +46,6 @@ const PasswordReset = () => {
       width: calc(95% - 5px);
     }
   `
-  const { setAlertInfo } = useLoginState()
   const { handleSubmit, control } = useForm({
     defaultValues: {
       user_name: ''
@@ -60,11 +60,7 @@ const PasswordReset = () => {
       await Auth.forgotPassword(event.user_name)
       newPassword(event)
     } catch (error) {
-      setAlertInfo({
-        display: true,
-        message: 'ユーザ名が見つかりませんでした。正しいユーザ名を入力してください。',
-        variant: 'error'
-      })
+      enqueueSnackbar('ユーザ名が見つかりませんでした。正しいユーザ名を入力してください。', { variant: 'error' })
     }
   }
 

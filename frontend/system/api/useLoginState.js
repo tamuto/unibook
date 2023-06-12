@@ -10,13 +10,7 @@ axios.defaults.baseURL = environ.BaseURL
 const useLoginState = create((set) => ({
   mode: 0,
   userInfo: {},
-  alertInfo: {
-    display: false,
-    message: '',
-    variant: ''
-  },
   setUserInfo: (userInfo) => set({ userInfo }),
-  setAlertInfo: (alertInfo) => set({ alertInfo }),
   init: async () => {
     try {
       const data = await Auth.currentSession()
@@ -28,8 +22,8 @@ const useLoginState = create((set) => ({
       set({ mode: 0 })
     }
   },
-  toSignIn: async (alertInfo) => {
-    set({ mode: 0, alertInfo })
+  toSignIn: async () => {
+    set({ mode: 0 })
   },
   signIn: async () => {
     useLoginState.getState().init

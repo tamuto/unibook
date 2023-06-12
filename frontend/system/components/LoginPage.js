@@ -3,6 +3,7 @@ import { Amplify, Auth } from 'aws-amplify'
 import { AuthContext } from '../../main'
 import { useForm } from 'react-hook-form'
 import { css } from '@emotion/react'
+import { enqueueSnackbar } from 'notistack'
 
 import {
   Box,
@@ -49,7 +50,6 @@ const LoginPage = () => {
   `
 
   Amplify.configure(environ.AwsConfig)
-  const { setAlertInfo } = useLoginState()
   const { handleSubmit, control } = useForm({
     defaultValues: {
       user_name: '',
@@ -69,11 +69,7 @@ const LoginPage = () => {
       setIsLoggedIn(true)
       init()
     } catch (error) {
-      setAlertInfo({
-        display: true,
-        message: 'サインインに失敗しました。もう一度サインインしてください。',
-        variant: 'error'
-      })
+      enqueueSnackbar('サインインに失敗しました。もう一度サインインしてください。', { variant: 'error' })
     }
   }
 
