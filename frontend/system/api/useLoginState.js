@@ -28,8 +28,8 @@ const useLoginState = create((set) => ({
   signIn: async () => {
     useLoginState.getState().init
   },
-  signUp: async () => {
-    set({ mode: 2 })
+  signUp: async (value) => {
+    set({ mode: 2, userInfo: value })
   },
   accountInfoCheck: async (value) => {
     set({ mode: 3, userInfo: value })

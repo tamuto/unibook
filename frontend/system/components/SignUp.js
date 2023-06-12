@@ -16,6 +16,7 @@ import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.j
 
 const SignUp = () => {
   const mobile = useMediaQuery(state => state.mobile)
+  const { userInfo } = useLoginState()
 
   const layoutCss = css`
     display: flex;
@@ -46,10 +47,10 @@ const SignUp = () => {
 
   const { handleSubmit, control, getValues } = useForm({
     defaultValues: {
-      user_name: '',
-      email: '',
-      password: '',
-      confirm: ''
+      user_name: userInfo.user_name || '',
+      email: userInfo.email || '',
+      password: userInfo.password || '',
+      confirm: userInfo.confirm || ''
     }
   })
 
