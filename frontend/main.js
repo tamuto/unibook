@@ -16,7 +16,6 @@ import Confirmed from '~/system/components/Confirmed'
 import NewPassword from '~/system/components/NewPassword'
 import PasswordReset from '~/system/components/PasswordReset'
 import SignUp from '~/system/components/SignUp'
-import Snackbar from '~/components/Snackbar'
 
 import { Amplify } from 'aws-amplify'
 import '@aws-amplify/ui-react/styles.css'
@@ -33,7 +32,6 @@ const App = () => {
   const loginState = useLoginState()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
-  const { alertInfo } = useLoginState()
   const init = useLoginState(state => state.init)
 
   useEffect(() => {
@@ -46,9 +44,6 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SnackbarProvider>
-          {alertInfo?.display && (
-            <Snackbar alertInfo={alertInfo}></Snackbar>
-          )}
           {
             loginState.mode === 0 && <LoginPage />
           }

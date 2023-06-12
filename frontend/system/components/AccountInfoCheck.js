@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { css } from '@emotion/react'
 import { Auth } from 'aws-amplify'
+import { enqueueSnackbar } from 'notistack'
 
 import {
   Box,
@@ -69,7 +70,7 @@ const AccountInfoCheck = () => {
       })
       confirmed(data)
     } catch (error) {
-      alert('アカウントを登録できませんでした。サインアップ画面に移動します。')
+      enqueueSnackbar('アカウントを登録できませんでした。サインアップ画面に移動します。', { variant: 'error' })
       toSignIn()
     }
   }

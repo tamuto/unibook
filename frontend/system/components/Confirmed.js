@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { Auth } from 'aws-amplify'
 import { useForm } from 'react-hook-form'
+import { enqueueSnackbar } from 'notistack'
 
 import {
   Box,
@@ -47,8 +48,7 @@ const Confirmed = () => {
   `
   const { userInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
-  const { setAlertInfo } = useLoginState()
-  const { handleSubmit, control, getValues } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       user_name: '',
       authcode: ''
@@ -58,28 +58,17 @@ const Confirmed = () => {
   const _confirmed = async (event) => {
     try {
       await Auth.confirmSignUp(userInfo.user_name, event.authcode)
-      toSignIn({
-        display: true,
-        message: 'アカウントを登録しました。',
-        variant: 'success'
-      })
+      enqueueSnackbar('アカウントを登録しました。', { variant: 'success' })
+      toSignIn()
     } catch (error) {
-      setAlertInfo({
-        display: true,
-        message: '認証に失敗しました。もう一度認証コードをご確認ください。',
-        variant: 'info'
-      })
+      enqueueSnackbar('認証に失敗しました。もう一度認証コードをご確認ください。', { variant: 'error' })
     }
   }
 
   const resendSignUp = async () => {
     try {
-      await Auth.resendSignUp(userInfo.user_name);
-      setAlertInfo({
-        display: true,
-        message: '本人認証メールを再送しました。',
-        variant: 'info'
-      })
+      await Auth.resendSignUp(userInfo.user_name)
+      enqueueSnackbar('本人認証メールを再送しました。', { variant: 'info' })
     } catch (error) {
     }
   }

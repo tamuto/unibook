@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { Auth } from "aws-amplify"
 import { useForm } from 'react-hook-form'
+import { enqueueSnackbar } from 'notistack'
 
 import {
   Box,
@@ -46,11 +47,11 @@ const SignUp = () => {
     }
   `
   const { userInfo } = useLoginState()
-  const { setAlertInfo } = useLoginState()
   const toSignIn = useLoginState((state) => state.toSignIn)
   const { handleSubmit, control, getValues } = useForm({
     defaultValues: {
       authcode: '',
+      new_pwd: '',
       confirm_pwd: ''
     }
   })
@@ -58,17 +59,10 @@ const SignUp = () => {
   const _newPassword = async (event) => {
     try {
       await Auth.forgotPasswordSubmit(userInfo.user_name, event.authcode, event.confirm_pwd)
-      toSignIn({
-        display: true,
-        message: 'パスワードを変更しました。',
-        variant: 'success'
-      })
+      enqueueSnackbar('パスワードを変更しました。', { variant: 'success' })
+      toSignIn()
     } catch (error) {
-      setAlertInfo({
-        display: true,
-        message: '認証に失敗しました。もう一度認証コードをご確認ください。',
-        variant: 'error'
-      })
+      enqueueSnackbar('認証に失敗しました。もう一度認証コードをご確認ください。', { variant: 'error' })
     }
   }
 
