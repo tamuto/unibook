@@ -1,24 +1,38 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { css } from '@emotion/react'
+import { Auth } from "aws-amplify"
 import {
   Box,
   Button,
-  Stack,
-  TextField
+  Stack
 } from '@mui/material'
 import HeadBox from '~/components/Header'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { Auth } from "aws-amplify"
+import useMediaQuery from '~/api/useMediaQuery'
 
-const InputForm = styled(Box)`
-  background-color: white;
-  padding: 15px;
-  margin: auto;
-`
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const ChangePassword = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    background-color: white;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
+
+  const { handleSubmit, control, getValues } = useForm({
+    defaultValues: {
+      current_pwd: '',
+      new_pwd: '',
+      confirm_pwd: ''
+    }
+  })
+
   const navigate = useNavigate()
 
   const moveBack = () => {
@@ -30,8 +44,8 @@ const ChangePassword = () => {
       const user = await Auth.currentAuthenticatedUser()
       await Auth.changePassword(
         user,
-        event.current,
-        event.confirmPassword
+        event.current_pwd,
+        event.confirm_pwd
       )
       alert('パスワードを変更しました。')
       navigate('/books/account/info')
@@ -41,9 +55,6 @@ const ChangePassword = () => {
   }
 
   const onSubmit = handleSubmit(_changePassword)
-
-  const newPassword = watch('new')
-
 
   return (
     <>
@@ -62,43 +73,32 @@ const ChangePassword = () => {
         }}>
         <Stack flexGrow={1}></Stack>
       </Stack>
-      <InputForm onSubmit={onSubmit}>
+      <Box css={layoutCss} onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
-          <TextField
-            fullWidth
+          <HookFormField
+            type='password'
             label='現在のパスワード'
-            type='password'
-            error={!!errors.current}
-            helperText={errors.current ? '現在のパスワードを入力してください。' : ''}
-            {...register('current', {
-              required: true
-            })}
+            name='current_pwd'
+            rules={{ required: '現在のパスワードを入力してください。' }}
+            control={control}
           />
-          <TextField
-            fullWidth
+          <HookFormField
+            type='password'
             label='新しいパスワード'
-            type='password'
-            error={!!errors.new && true}
-            helperText={errors.new && '新しいパスワードを入力してください。'}
-            {...register('new', {
-              required: true
-            })}
+            name='new_pwd'
+            rules={{ required: '新しいパスワードを入力してください。' }}
+            control={control}
           />
-          <TextField
-            fullWidth
-            label='新しいパスワード(確認用)'
+          <HookFormField
             type='password'
-            error={!!errors.confirmPassword && true}
-            helperText={
-              errors.confirmPassword
-                ? 'パスワードが一致しません。'
-                : ''
-            }
-            {...register('confirmPassword', {
-              required: true,
+            label='新しいパスワード(確認用)'
+            name='confirm_pwd'
+            rules={{
+              required: '新しいパスワード（確認用）を入力してください。',
               validate: (value) =>
-                value === newPassword || 'パスワードが一致しません。'
-            })}
+                value === getValues('new_pwd') || 'パスワードが一致しません。'
+            }}
+            control={control}
           />
           <Button
             style={{ width: '150px' }}
@@ -108,7 +108,7 @@ const ChangePassword = () => {
             パスワード変更
           </Button>
         </Stack>
-      </InputForm>
+      </Box>
     </>
   )
 }
