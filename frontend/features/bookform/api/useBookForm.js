@@ -19,6 +19,7 @@ const useBookForm = () => {
   const _list = async () => {
     const bookInfo = await axios.get(`/api/books/${form}`) // yaml
     const record = await axios.get(`/data/${form}`) // list
+    console.log(bookInfo.data)
     setData({
       ...bookInfo.data,
       records: record.data
@@ -29,8 +30,10 @@ const useBookForm = () => {
     _list()
   }, [])
 
-  const newEntry = () => {
-    navigate(`${base}/entry`)
+  const newEntry = async () => {
+    const bookInfo = await axios.get(`/api/books/${form}`) // yaml
+    navigate(`${base}/entry`, { state: { bookInfo } })
+
   }
 
   const moveHome = () => {

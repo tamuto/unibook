@@ -1,30 +1,43 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import axios from 'axios'
+
+import useMediaQuery from '~/api/useMediaQuery'
 
 import {
   Box,
   Button,
   Stack,
-  TextField,
   Typography
 } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
-const ShareForm = styled(Box)`
-  width: 500px;
-  background-color: white;
-  border: solid 1px lightgrey;
-  border-radius: 5px;
-  padding: 15px;
-  margin: auto;
-`
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const BookShare = () => {
+  const mobile = useMediaQuery(state => state.mobile)
+
+  const layoutCss = css`
+    width: 600px;
+    background-color: white;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
+
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      sub: '',
+      book: ''
+    }
+  })
 
   const _bookShare = async (event) => {
     const sub_id = event.sub
@@ -40,7 +53,7 @@ const BookShare = () => {
   const onSubmit = handleSubmit(_bookShare)
 
   return (
-    <ShareForm onSubmit={onSubmit} sx={{ width: '600px', mx: 'auto', p: 2 }}>
+    <Box css={layoutCss} onSubmit={onSubmit} >
       <Stack component='form' spacing={2}>
         <Typography variant='h5'>
           台帳共有
@@ -51,34 +64,20 @@ const BookShare = () => {
         <Typography variant='caption'>
           共有する方のリンクIDと台帳IDを入力してください。
         </Typography>
-        <Stack direction='row'>
-          <Typography style={{ width: '200px' }} fontWeight='bold'>
-            リンクID:
-          </Typography>
-          <TextField
-            fullWidth
-            error={!!errors.sub}
-            helperText={errors.sub ? 'リンクIDを入力してください。' : ''}
-            {...register('sub', {
-              required: true
-            })}
-          >
-          </TextField>
-        </Stack>
-        <Stack direction='row'>
-          <Typography style={{ width: '200px' }} fontWeight='bold'>
-            台帳ID:
-          </Typography>
-          <TextField
-            fullWidth
-            error={!!errors.book}
-            helperText={errors.book ? '台帳IDを入力してください。' : ''}
-            {...register('book', {
-              required: true
-            })}
-          >
-          </TextField>
-        </Stack>
+        <HookFormField
+          type='text'
+          label='リンクID'
+          name='sub'
+          rules={{ required: 'リンクIDを入力してください。' }}
+          control={control}
+        />
+        <HookFormField
+          type='text'
+          label='台帳ID'
+          name='book'
+          rules={{ required: '台帳IDを入力してください。' }}
+          control={control}
+        />
         <Stack direction='row'>
           <Button
             style={{ width: '120px' }}
@@ -96,7 +95,7 @@ const BookShare = () => {
           </Button>
         </Stack>
       </Stack>
-    </ShareForm>
+    </Box >
   )
 }
 

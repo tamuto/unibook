@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { useForm } from 'react-hook-form'
+import { css } from '@emotion/react'
 import {
   Stack,
-  Typography,
   Button,
   Box
 } from '@mui/material'
@@ -11,14 +11,30 @@ import { useNavigate } from 'react-router-dom'
 import { Auth } from "aws-amplify"
 import { useState, useEffect } from 'react'
 
-const AccountInfo = styled(Box)`
-  background-color: white;
-  padding: 15px;
-  margin: auto;
-`
+import useMediaQuery from '~/api/useMediaQuery'
+import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
 const Account = () => {
+  const mobile = useMediaQuery(state => state.mobile)
   const [userSession, setUserSession] = useState('')
+
+  const layoutCss = css`
+    background-color: white;
+    padding: 15px;
+    margin: auto;
+    ${mobile} {
+      width: calc(95% - 5px);
+    }
+  `
+
+  const { control } = useForm({
+    defaultValues: {
+      username: userSession?.username || '',
+      email: userSession?.attributes?.email || '',
+      sub: userSession?.attributes?.sub || '',
+    },
+  })
+
   const navigate = useNavigate()
   const moveBack = () => {
     navigate(-1)
@@ -27,6 +43,7 @@ const Account = () => {
   const changePassword = () => {
     navigate('/books/account/password')
   }
+
 
   useEffect(() => {
     const getCurrentSession = async () => {
@@ -58,32 +75,32 @@ const Account = () => {
         }}>
         <Stack flexGrow={1}></Stack>
       </Stack>
-      <AccountInfo>
-        <Stack spacing={2}>
-          <Stack direction='row'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              ID:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userSession?.username}
-            </Typography>
-          </Stack>
-          <Stack direction='row'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              メールアドレス:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userSession?.attributes?.email}
-            </Typography>
-          </Stack>
-          <Stack direction='row'>
-            <Typography style={{ width: '200px' }} fontWeight='bold'>
-              リンクID:
-            </Typography>
-            <Typography fontWeight='bold'>
-              {userSession?.attributes?.sub}
-            </Typography>
-          </Stack>
+      <Box css={layoutCss}>
+        <Stack component='form' mb={2} spacing={2}>
+          <HookFormField
+            label='ユーザ名'
+            type='text'
+            name='username'
+            value={userSession?.username || ''}
+            control={control}
+            readonly
+          />
+          <HookFormField
+            label='メールアドレス'
+            type='text'
+            name='email'
+            value={userSession?.attributes?.email || ''}
+            control={control}
+            readonly
+          />
+          <HookFormField
+            label='リンクID'
+            type='text'
+            name='sub'
+            value={userSession?.attributes?.sub || ''}
+            control={control}
+            readonly
+          />
           <Button
             style={{ width: '150px' }}
             color='secondary'
@@ -91,7 +108,7 @@ const Account = () => {
             パスワード変更
           </Button>
         </Stack>
-      </AccountInfo>
+      </Box>
     </>
   )
 }
