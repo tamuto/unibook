@@ -8,6 +8,10 @@ import useMediaQuery from '~/api/useMediaQuery'
 import {
   Box,
   Button,
+  FormControl,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
   Stack,
   Typography
 } from '@mui/material'
@@ -78,6 +82,16 @@ const BookShare = () => {
           rules={{ required: '台帳IDを入力してください。' }}
           control={control}
         />
+        <FormControl>
+          <RadioGroup
+            aria-labelledby='book_share'
+            defaultValue='template'
+            name='book_share'
+          >
+            <FormControlLabel value='template' control={<Radio />} label='テンプレートのみ共有' />
+            <FormControlLabel value='all' control={<Radio />} label='すべて共有' />
+          </RadioGroup>
+        </FormControl>
         <Stack direction='row'>
           <Button
             style={{ width: '120px' }}
