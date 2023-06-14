@@ -108,7 +108,6 @@ const BookSetting = () => {
           <FormControl>
             <RadioGroup
               aria-labelledby='caption_setting'
-              defaultValue='caption'
               name='caption_setting'
               onChange={handleRadioChange}
             >
