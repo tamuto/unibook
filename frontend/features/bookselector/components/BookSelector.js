@@ -4,6 +4,7 @@ import { Auth } from 'aws-amplify'
 import { css } from '@emotion/react'
 import axios from 'axios'
 import ShareIcon from '@mui/icons-material/Share'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import useMediaQuery from '~/api/useMediaQuery'
 
 import {
@@ -13,6 +14,7 @@ import {
   ListItemText,
   Paper,
   Stack,
+  Tooltip,
   Typography
 } from '@mui/material'
 
@@ -37,6 +39,10 @@ const BookSelector = () => {
     setBooks(result.data)
     await Auth.currentUserInfo()
   }
+  
+  const moveCreateBook = () => {
+    navigate('/books/create')
+  }
 
   const moveShereBook = () => {
     navigate('/books/share')
@@ -50,9 +56,18 @@ const BookSelector = () => {
     <Paper css={layoutCss}>
       <Stack direction='row' alignItems='center' justifyContent='space-between' spacing={1}>
         <Typography variant='h6'>選択してください。</Typography>
-        <IconButton onClick={moveShereBook}>
-          <ShareIcon />
-        </IconButton>
+        <div>
+          <Tooltip title='新規作成'>
+            <IconButton onClick={moveCreateBook}>
+              <AddCircleIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='共有'>
+            <IconButton onClick={moveShereBook}>
+              <ShareIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       </Stack>
       <List>
         {books.length === 0 ? (

@@ -15,7 +15,9 @@ import Account from '~/components/Account'
 import BookEditor from '~/features/bookform/components/BookEditor'
 import BookForm from '~/features/bookform/components/BookForm'
 import BookSelector from '~/features/bookselector/components/BookSelector'
+import BookSetting from '~/components/BookSetting'
 import BookShare from '~/components/BookShare'
+import BookCreate from '~/components/BookCreate'
 import ChangePassword from '~/components/ChangePassword'
 import TitleBar from '~/components/TitleBar'
 
@@ -29,6 +31,8 @@ const MainPage = () => {
           <Routes>
             <Route path='/' element={<Navigate to='/books' />} />
             <Route path='/books' element={<BookSelector />} />
+            <Route path='/books/create' element={<BookCreate />} />
+            <Route path='/books/setting' element={<BookSetting />} />
             <Route path='/books/share' element={<BookShare />} />
             <Route path='/books/account/info' element={<Account />} />
             <Route path='/books/account/password' element={<ChangePassword />} />
