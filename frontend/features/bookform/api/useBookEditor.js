@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 
 
@@ -48,10 +49,10 @@ const useBookEditor = () => {
   const onSubmit = async (data) => {
     if (recordNo) {
       await axios.put(`/data/${form}/${recordNo}`, watch(data))
-      alert('レコードを一件変更しました。')
+      enqueueSnackbar('レコードを一件変更しました。', { variant: 'success' })
     } else {
       await axios.post(`/data/${form}`, watch(data))
-      alert('レコードを一件追加しました。')
+      enqueueSnackbar('レコードを一件追加しました。', { variant: 'success' })
     }
     navigate(`${base}`)
   }

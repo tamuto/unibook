@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { css } from '@emotion/react'
 import { Auth } from "aws-amplify"
+import { enqueueSnackbar } from 'notistack'
 import {
   Box,
   Button,
@@ -47,10 +48,10 @@ const ChangePassword = () => {
         event.current_pwd,
         event.confirm_pwd
       )
-      alert('パスワードを変更しました。')
+      enqueueSnackbar('パスワードを変更しました。', { variant: 'success' })
       navigate('/books/account/info')
     } catch (error) {
-      alert('パスワードを変更できませんでした。')
+      enqueueSnackbar('パスワードを変更できませんでした。', { variant: 'error' })
     }
   }
 

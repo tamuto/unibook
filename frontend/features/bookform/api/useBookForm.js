@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 
 const useBookForm = () => {
@@ -60,7 +61,7 @@ const useBookForm = () => {
           })
       })
     setOpenModal(!openModal)
-    alert('レコードを一件削除しました。')
+    enqueueSnackbar('レコードを一件削除しました。', { variant: 'success' })
   }
   return {
     openModal,
