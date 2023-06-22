@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { css } from '@emotion/react'
-import {
-  Stack,
-  Button,
-  Box
-} from '@mui/material'
-import HeadBox from '../components/Header'
 import { useNavigate } from 'react-router-dom'
+import { css } from '@emotion/react'
 import { Auth } from "aws-amplify"
-import { useState, useEffect } from 'react'
-
+import { enqueueSnackbar } from 'notistack'
+import {
+  Box,
+  Button,
+  Stack
+} from '@mui/material'
+import HeadBox from '~/components/Header'
 import useMediaQuery from '~/api/useMediaQuery'
+
 import HookFormField from 'github://tamuto/uilib/components/form/HookFormField.js'
 
-const Account = () => {
+const ChangeMailAddress = () => {
   const mobile = useMediaQuery(state => state.mobile)
   const [userSession, setUserSession] = useState('')
 
@@ -27,27 +27,32 @@ const Account = () => {
     }
   `
 
-  const { control } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
-      username: userSession?.username || '',
-      email: userSession?.attributes?.email || '',
-      sub: userSession?.attributes?.sub || '',
-    },
+      email: userSession?.attributes?.email || ''
+    }
   })
 
   const navigate = useNavigate()
+
   const moveBack = () => {
     navigate(-1)
   }
 
-  const changeMailAddress = () => {
-    navigate('/books/account/mail')
+  const _changeMail = async (email) => {
+    try {
+      const user = await Auth.currentAuthenticatedUser()
+      console.log(user)
+      await Auth.updateUserAttributes(user, email)
+      enqueueSnackbar('メールアドレスを変更しました。', { variant: 'success' })
+      navigate('/books/account/info')
+    } catch (error) {
+      console.log(error)
+      enqueueSnackbar('メールアドレスを変更できませんでした。', { variant: 'error' })
+    }
   }
 
-  const changePassword = () => {
-    navigate('/books/account/password')
-  }
-
+  const onSubmit = handleSubmit(_changeMail)
 
   useEffect(() => {
     const getCurrentSession = async () => {
@@ -79,47 +84,25 @@ const Account = () => {
         }}>
         <Stack flexGrow={1}></Stack>
       </Stack>
-      <Box css={layoutCss}>
+      <Box css={layoutCss} onSubmit={onSubmit}>
         <Stack component='form' mb={2} spacing={2}>
           <HookFormField
-            label='ユーザ名'
             type='text'
-            name='username'
-            value={userSession?.username || ''}
-            control={control}
-            readonly
-          />
-          <HookFormField
             label='メールアドレス'
-            type='text'
             name='email'
-            value={userSession?.attributes?.email || ''}
+            rules={{ required: 'メールアドレスを入力してください。' }}
             control={control}
-            readonly
-          />
-          <HookFormField
-            label='リンクID'
-            type='text'
-            name='sub'
-            value={userSession?.attributes?.sub || ''}
-            control={control}
-            readonly
           />
           <Button
             style={{ width: '170px' }}
             color='secondary'
-            onClick={changeMailAddress}>
+            type='submit'
+          >
             メールアドレス変更
-          </Button>
-          <Button
-            style={{ width: '150px' }}
-            color='secondary'
-            onClick={changePassword}>
-            パスワード変更
           </Button>
         </Stack>
       </Box>
     </>
   )
 }
-export default Account
+export default ChangeMailAddress
