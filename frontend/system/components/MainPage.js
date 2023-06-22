@@ -19,6 +19,7 @@ import BookSetting from '~/components/BookSetting'
 import BookShare from '~/components/BookShare'
 import BookCreate from '~/components/BookCreate'
 import ChangePassword from '~/components/ChangePassword'
+import ChangeMailAddress from '~/components/ChangeMailAddress'
 import TitleBar from '~/components/TitleBar'
 
 const MainPage = () => {
@@ -36,6 +37,7 @@ const MainPage = () => {
             <Route path='/books/share' element={<BookShare />} />
             <Route path='/books/account/info' element={<Account />} />
             <Route path='/books/account/password' element={<ChangePassword />} />
+            <Route path='/books/account/mail' element={<ChangeMailAddress />} />
             <Route path='/books/:form' element={<BookForm />} />
             <Route path='/books/:form/entry' element={<BookEditor />} />
             <Route path='/books/:form/edit/:recordNo' element={<BookEditor />} />
